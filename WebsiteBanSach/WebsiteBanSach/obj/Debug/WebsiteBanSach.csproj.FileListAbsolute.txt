@@ -84,3 +84,6 @@ D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.dll
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.pdb
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.InitialModel.resources
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.csproj.GenerateResource.cache
+D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulateUserGroupTable.resources
+D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulateRoleTable.resources
+D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulatedUserTable.resources

@@ -1,0 +1,138 @@
+﻿@model WebsiteBanSach.Models.User
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Đăng nhập / Đăng ký</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="Index">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="Login">Đăng nhập / Đăng ký</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+<!--================Register Box Area =================-->
+<section class="login_box_area section_gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <img class="img-fluid" src="/img/login.jpg" alt="">
+                    <div class="hover">
+                        <h4>Đã có tài khoản?</h4>
+                        <p>Click vào nút dưới đây để tiến hành đăng nhập</p>
+                        <a class="primary-btn" href="Login">Đăng nhập</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner">
+                    @if (@ViewBag.Message != null)
+                    {
+                        <h3 class="alert alert-success">@ViewBag.Message</h3>
+                    }
+                    @if (@ViewBag.Error != null)
+                    {
+                        <h3 class="alert alert-danger">@ViewBag.Error</h3>
+                    }
+                    <h3>Đăng ký tài khoản</h3>
+                    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { enctype = "multilpart/form-data", @class = "row login_form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <h4></h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.UserName, htmlAttributes: new { })</b>
+                        <div class="col-md-12 form-group">
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên đăng nhập", @onfocus = "this.placeholder = ''", @onblur = "this.placeholder = 'Tên đăng nhập'" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Password, htmlAttributes: new { })</b>
+                        <div class="col-md-12 form-group">
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật khẩu", @onfocus = "this.placeholder = ''", @onblur = "this.placeholder = 'Mật khẩu'" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <b class="col-md-12" Style="text-align: left">Nhập lại mật khẩu</b>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control text-box single-line password" data-val="true" data-val-length="Mật khẩu không được dài hơn 12 ký tự" data-val-length-max="12" data-val-required="Không được để trống mật khẩu" id="confirmpassword" name="confirmpassword" placeholder="Nhập lại mật khẩu" onfocus="this.placeholder=''" onblur="this.placeholder='Nhập lại mật khẩu'" type="password" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="confirmpassword" data-valmsg-replace="true"></span>
+                        </div>
+
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "" })</b>
+                        <div class="col-md-12 form-group">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Họ và tên", @onfocus = "this.placeholder = ''", @onblur = "this.placeholder = 'Họ và tên'" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "" })</b>
+                        <div class="col-md-12 form-group" style="padding-top:6px">
+                            @Html.DropDownListFor(m => m.Gender, new SelectList(new[]
+                                                    {
+                                                        new SelectListItem { Value = null, Text = "Chưa xác định" },
+                                                        new SelectListItem { Value = false.ToString(), Text = "Nam" },
+                                                        new SelectListItem { Value = true.ToString(), Text = "Nữ" },
+                                                    },
+                                                    "Value",
+                                                    "Text"
+                                                    ),
+                                             new { @class = "form-control" })
+                            @*<div class="checkbox">
+                    @Html.EditorFor(model => model.Gender)
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                </div>*@
+                        </div>
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Avatar, htmlAttributes: new { @class = "" })</b>
+                        <div class="col-md-12 form-group">
+                            <input type="file" name="fileUpload" style="border-style:none; padding-top:16px;" />
+                            @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })
+                        </div>
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "" })</b>
+                        <div class="col-md-12 form-group">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Địa chỉ", @onfocus = "this.placeholder = ''", @onblur = "this.placeholder = 'Địa chỉ'" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "" })</b>
+                        <div class="col-md-12 form-group">
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại", @onfocus = "this.placeholder = ''", @onblur = "this.placeholder = 'Số điện thoại'" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+
+                        <b class="col-md-12" Style="text-align: left">@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })</b>
+                        <div class="col-md-12 form-group">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @onfocus = "this.placeholder = ''", @onblur = "this.placeholder = 'Email'" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-12">
+                                <button type="submit" value="Create" class="primary-btn">Đăng ký</button>
+                                @*<input type="submit" value="Create" class="btn btn-default" />*@
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Register Box Area =================-->
+

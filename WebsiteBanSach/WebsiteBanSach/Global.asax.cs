@@ -17,5 +17,12 @@ namespace WebsiteBanSach
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        protected void Session_Start()
+        {
+            Session["ID"] = null;
+            Session["UserName"] = null;
+            Session["Name"] = null;
+            Session["Avatar"] = null;
+        }
     }
 }

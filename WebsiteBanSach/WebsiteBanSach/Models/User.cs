@@ -16,12 +16,13 @@ namespace WebsiteBanSach.Models
         //Tên người dùng
         [StringLength(50, ErrorMessage = "Tên người dùng không được dài hơn 50 ký tự")]
         [Required(ErrorMessage = "Không được để trống tên người dùng")]
-        [Display(Name = "Tên người dùng")]
+        [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }
 
         //Mật khẩu
         [StringLength(12, ErrorMessage = "Mật khẩu không được dài hơn 12 ký tự")]
         [Required(ErrorMessage = "Không được để trống mật khẩu")]
+        [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
@@ -34,6 +35,10 @@ namespace WebsiteBanSach.Models
         [Required(ErrorMessage = "Không được để trống họ tên")]
         [Display(Name = "Họ và tên")]
         public string Name { get; set; }
+
+        //Giới tính
+        [Display(Name = "Giới tính")]
+        public bool Gender { get; set; }
 
         //Ảnh
         [StringLength(250, ErrorMessage = "Tên ảnh không được dài hơn 250 ký tự")]

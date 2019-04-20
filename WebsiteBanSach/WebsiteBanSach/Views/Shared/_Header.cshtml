@@ -1,0 +1,52 @@
+﻿@if (Session["ID"] != null)
+{
+    <li class="nav-item submenu dropdown">
+        <a class="nav-link" href="Home/Index">Trang chủ</a>
+    </li>
+    <li class="nav-item submenu dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Danh mục</a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link" href="category.html">Thể loại</a></li>
+            <li class="nav-item"><a class="nav-link" href="single-product.html">Nhà xuất bản</a></li>
+            <li class="nav-item"><a class="nav-link" href="checkout.html">Tác giả</a></li>
+            <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+        </ul>
+    </li>
+    <li class="nav-item submenu dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Blog</a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+        </ul>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="Home/Contact">Liên hệ</a></li>
+}
+else
+{
+    <li class="nav-item submenu dropdown">
+        <a class="nav-link" href="Index">Trang chủ</a>
+    </li>
+    <li class="nav-item submenu dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Danh mục</a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link" href="category.html">Thể loại</a></li>
+            <li class="nav-item"><a class="nav-link" href="single-product.html">Nhà xuất bản</a></li>
+            <li class="nav-item"><a class="nav-link" href="checkout.html">Tác giả</a></li>
+            <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+        </ul>
+    </li>
+    <li class="nav-item submenu dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Blog</a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+        </ul>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="Contact">Liên hệ</a></li>
+}

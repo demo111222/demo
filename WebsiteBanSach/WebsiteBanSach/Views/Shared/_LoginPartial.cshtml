@@ -1,0 +1,30 @@
+﻿@if (Session["ID"] != null)
+{
+    <li class="nav-item submenu dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Chào!@Session["Name"]</a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link" href="#">Thông tin tài khoản</a></li>
+            <li class="nav-item"><a class="nav-link" href="Home/LogOut">Đăng xuất</a></li>
+        </ul>
+    </li>
+    @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+
+            @*<ul class="nav navbar-nav navbar-right">
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+    }*@
+}
+else
+{
+    <li class="nav-item submenu dropdown">
+        <a class="nav-link" href="Login">Đăng nhập / Đăng ký</a>
+    </li>
+}
