@@ -1,0 +1,230 @@
+﻿@model WebsiteBanSach.Models.Publisher
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item">Danh mục</li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/nha-xuat-ban">Nhà xuất bản</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/nha-xuat-ban/sua-@Model.ID/@Model.MetaTitle">Sửa @Model.Name</a></li>
+                    </ol>
+                </nav>
+            </div>
+
+            @*<div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Sửa @Model.Name</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        @using (Html.BeginForm("Edit", "Publishers", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "demo-form2", @class = "form-horizontal form-label-left" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="">
+                                @if (@ViewBag.Error != null)
+                                {
+                                    <h3 class="alert alert-danger">@ViewBag.Error</h3>
+                                }
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ID)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "field1" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "result" } })
+                                        @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        Ảnh cũ @Model.Logo
+                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Logo)" align="middle" width="100" />
+                                        chọn ảnh mới
+                                        <input type="file" name="fileUpload" />
+                                        @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white; margin-top:12px"><i class="fa fa-edit"></i>  Sửa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <a href="/Admin/trang-chu/danh-muc/nha-xuat-ban"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                    <a href="/Admin/trang-chu/danh-muc/nha-xuat-ban/xoa-@Model.ID/@Model.MetaTitle"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-times"></i> Xóa</button></a>
+                                    <a href="/Admin/trang-chu/danh-muc/nha-xuat-ban/chi-tiet-@Model.ID/@Model.MetaTitle"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-paper-plane"></i> Chi tiết</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section scripts
+{
+    <script>
+        $("#field1").keyup(function () {
+            var n = $("#field1").val();
+            n = n.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            n = n.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ắ|Ằ|Ặ|Ẳ|Ẵ/g, "a");
+            n = n.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            n = n.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "e");
+            n = n.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            n = n.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "i");
+            n = n.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            n = n.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "o");
+            n = n.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            n = n.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "u");
+            n = n.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            n = n.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "y");
+            n = n.replace(/đ/g, "d");
+            n = n.replace(/Đ/g, "d");
+
+            n = n.replace(/ /g, "-");
+            update(n);
+        });
+
+        function update(n) {
+            $("#result").val(n.toLowerCase());
+        }
+    </script>
+}
+@*<h2>Edit</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Publisher</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ModifiedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ModifiedDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ModifiedDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ModifiedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ModifiedBy, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ModifiedBy, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@

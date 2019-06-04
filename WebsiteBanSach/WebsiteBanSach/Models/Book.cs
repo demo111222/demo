@@ -13,9 +13,9 @@ namespace WebsiteBanSach.Models
         [Display(Name="Mã sách")]
         public int ID { get; set; }
 
-        //tên thể loại
-        [StringLength(250, ErrorMessage = "Tên loại không được dài hơn 250 ký tự")]
-        [Required(ErrorMessage = "Không được để trống tên loại")]
+        //tên sách
+        [StringLength(250, ErrorMessage = "Tên sách không được dài hơn 250 ký tự")]
+        [Required(ErrorMessage = "Không được để trống tên sách")]
         [Display(Name = "Tên sách")]
         public string Name { get; set; }
 
@@ -33,7 +33,7 @@ namespace WebsiteBanSach.Models
 
         //ảnh
         [StringLength(250, ErrorMessage = "Tên ảnh không được dài hơn 250 ký tự")]
-        [Required(ErrorMessage = "Không được để trống ảnh")]
+        //[Required(ErrorMessage = "Không được để trống ảnh")]
         [Display(Name = "Ảnh sách")]
         public string Image { get; set; }
 
@@ -59,7 +59,7 @@ namespace WebsiteBanSach.Models
         [Display(Name = "Tác giả")]
         public int AuthorID { get; set; }
 
-        //Tác giả
+        //Nhà xuất bản
         [Display(Name = "Nhà xuất bản")]
         public int PublisherID { get; set; }
 

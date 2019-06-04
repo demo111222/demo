@@ -1,0 +1,246 @@
+﻿@model WebsiteBanSach.Models.Order
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    double subtotal = 0;
+    double price = 0;
+    double total = 0;
+}
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/danh-sach">Đơn đặt hàng</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/sua-don-dat-hang-@Model.ID">Sửa đơn hàng @Model.ID</a></li>
+                    </ol>
+                </nav>
+            </div>
+
+            @*<div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Sửa đơn hàng @Model.ID</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <h3 class="alert alert-danger">Trạng thái thanh toán một khi đã chuyển sang đã hủy hoặc đã hoàn thành thì đơn hàng sẽ không thể thay đổi được nữa</h3>
+                        <br />
+                        @using (Html.BeginForm("Edit", "Orders", FormMethod.Post, new { @id = "demo-form2", @class = "form-horizontal form-label-left" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="">
+                                @if (@ViewBag.Error != null)
+                                {
+                                    <h3 class="alert alert-danger">@ViewBag.Error</h3>
+                                }
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ID)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-control col-md-7 col-xs-12">@Model.ID</div>
+                                        @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.User.Name, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-control col-md-7 col-xs-12">@Model.User.Name</div>
+                                        @Html.ValidationMessageFor(model => model.User.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CheckoutStatus, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.DropDownListFor(m => m.CheckoutStatus, new SelectList(new[]
+                                                    {
+                                                        new SelectListItem { Value = null, Text = "Đã xác nhận" },
+                                                        new SelectListItem { Value = false.ToString(), Text = "Đã hủy" },
+                                                        new SelectListItem { Value = true.ToString(), Text = "Đã hoàn thành" },
+                                                    },
+                                                    "Value",
+                                                    "Text"
+                                                    ),
+                                             new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CheckoutStatus, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DeliveryStatus, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.DropDownListFor(m => m.DeliveryStatus, new SelectList(new[]
+                                                    {
+                                                        new SelectListItem { Value = null, Text = "Đang đóng gói" },
+                                                        new SelectListItem { Value = false.ToString(), Text = "Đang vận chuyển " },
+                                                        new SelectListItem { Value = true.ToString(), Text = "Đã giao" },
+                                                    },
+                                                    "Value",
+                                                    "Text"
+                                                    ),
+                                             new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryStatus, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="x_title">
+                                <h2>Sửa chi tiết đơn hàng @Model.ID</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <table id="datatable-buttons" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Tên sách</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th>Tổng tiền sản phẩm</th>
+                                        <th>Tương tác</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in ViewBag.Detail)
+                                    {
+                                        price = double.Parse(item.Price.ToString());
+                                        subtotal = price * item.Number;
+                                        total += subtotal;
+                                        <tr>
+                                            <td>
+                                                <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @item.Book.Image)" width="100" height="100" />
+                                                @item.Book.Name
+                                            </td>
+                                            <td>
+                                                @item.Number
+                                            </td>
+                                            <td>
+                                                @price VNĐ
+                                            </td>
+                                            <td>
+                                                @subtotal VNĐ
+                                            </td>
+                                            <td>
+                                                <a href="/Admin/trang-chu/don-dat-hang/sua-chi-tiet-don-dat-hang-@Model.ID/ma-sach-@item.BookID">Sửa</a> |
+                                                <a href="/Admin/trang-chu/don-dat-hang/xoa-chi-tiet-don-dat-hang-@Model.ID/ma-sach-@item.BookID">Xóa</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td style="visibility: hidden;">z</td>
+                                        <td style="visibility: hidden;"></td>
+                                        <td> Tổng tiền đơn đặt hàng</td>
+                                        <td>@total VNĐ</td>
+                                        <td style="visibility: hidden;"></td>
+                                        <td style="visibility: hidden;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white; margin-top:12px"><i class="fa fa-edit"></i>  Sửa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <a href="/Admin/trang-chu/don-dat-hang/danh-sach"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                    <a href="/Admin/trang-chu/don-dat-hang/chi-tiet-don-dat-hang-@Model.ID"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-paper-plane"></i> Chi tiết</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page content -->
+@section scripts
+{
+    <!-- Datatables -->
+    <script src="/Areas/Admin/Content/vendors/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="/Areas/Admin/Content/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/Areas/Admin/Content/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script>
+        $("#field1").keyup(function () {
+            var n = $("#field1").val();
+            n = n.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            n = n.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ắ|Ằ|Ặ|Ẳ|Ẵ/g, "a");
+            n = n.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            n = n.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "e");
+            n = n.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            n = n.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "i");
+            n = n.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            n = n.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "o");
+            n = n.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            n = n.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "u");
+            n = n.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            n = n.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "y");
+            n = n.replace(/đ/g, "d");
+            n = n.replace(/Đ/g, "d");
+
+            n = n.replace(/ /g, "-");
+            update(n);
+        });
+
+        function update(n) {
+            $("#result").val(n.toLowerCase());
+        }
+    </script>
+}
+

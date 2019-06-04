@@ -1,0 +1,270 @@
+﻿@model WebsiteBanSach.Models.Book
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item">Danh mục</li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/sach">Sách</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/sach/xoa-@Model.ID/@Model.MetaTitle">Xóa sách @Model.Name</a></li>
+                    </ol>
+                </nav>
+            </div>
+
+            @*<div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Xóa sách @Model.Name <small></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <section class="content invoice">
+                            <!--This section is going to be printed in PDF-->
+                            <div>
+                                <h3 class="alert alert-danger">Bạn có chắc là muốn xóa tác giả @Model.Name</h3>
+                                <hr />
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Name)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.MetaTitle)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.MetaTitle)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Image)
+                                    </dt>
+
+                                    <dd>
+                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Image)" align="middle" width="100" />
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Author.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Author.Name)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Category.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Category.Name)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Publisher.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Publisher.Name)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Description)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Detail)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Detail)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Quantity)
+                                    </dt>
+
+                                    <dd id="field3">
+                                        @Html.DisplayFor(model => model.Quantity)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Price)
+                                    </dt>
+
+                                    <dd id="field1">
+                                        @Html.DisplayFor(model => model.Price)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PromotionPrice)
+                                    </dt>
+
+                                    <dd id="field2">
+                                        @Html.DisplayFor(model => model.PromotionPrice)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.Status.ToString() == false.ToString())
+                                        {
+                                            <p>Hết hàng</p>
+                                        }
+                                        else
+                                        {
+                                            if (Model.Status.ToString() == true.ToString())
+                                            {
+                                                <p>Còn hàng</p>
+                                            }
+
+                                            else
+                                            {
+                                                <p>Không xác định</p>
+                                            }
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CreatedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CreatedDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CreatedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CreatedBy)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ModifiedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ModifiedDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ModifiedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ModifiedBy)
+                                    </dd>
+
+                                </dl>
+                            </div>
+
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="row no-print">
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white"><i class="fa fa-times"></i>  Xóa</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <a href="/Admin/trang-chu/danh-muc/sach"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                        <a href="/Admin/trang-chu/danh-muc/sach/sua-@Model.ID/@Model.MetaTitle"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-edit"></i> Sửa</button></a>
+                                        <a href="/Admin/trang-chu/danh-muc/sach/chi-tiet-@Model.ID/@Model.MetaTitle"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-paper-plane"></i> Chi tiết</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var num = $('#field1').text();
+            var num2 = $('#field2').text();
+            var num3 = $('#field3').text();
+            num = parseInt(num);
+            num2 = parseInt(num2);
+            num3 = parseInt(num3);
+            num = addPeriod(num);
+            num2 = addPeriod(num2);
+            num3 = addPeriod(num3);
+            $('#field1').text(num + ' VNĐ');
+            $('#field2').text(num2 + ' VNĐ');
+            $('#field3').text(num3)
+        });
+
+        function addPeriod(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
+    </script>
+}

@@ -11,6 +11,7 @@
             //AddColumn("dbo.Users", "Gender", c => c.Boolean(nullable: true));
             Sql("Insert into Users (UserName,Password,UserGroupID,Name,Gender,Avatar,Address,Phone,Email,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy) values (N'Admin',N'123',N'Admin',N'Nguyễn Văn A',0,N'user.png',N'123 Điện Biên Phủ, Quận Bình Thạnh ,TP.HCM',N'09XXXXXX',N'nva@gmail.com','04-20-2019',N'Admin','04-20-2019',N'Admin')");
             Sql("Insert into Users (UserName,Password,UserGroupID,Name,Gender,Avatar,Address,Phone,Email,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy) values (N'Khachhang',N'123',N'Member',N'Trần Thị B',0,N'user.png',N'456 Điện Biên Phủ',N'09XXXXXX',N'tvb@gmail.com','04-20-2019',N'Khachhang','04-20-2019',N'Khachhang')");
+            Sql("Insert into Users (UserName,Password,UserGroupID,Name,Gender,Avatar,Address,Phone,Email,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy) values (N'Mod',N'456',N'Mod',N'Nguyễn Văn C',0,N'user.png',N'789 Điện Biên Phủ, Quận Bình Thạnh ,TP.HCM',N'09XXXXXX',N'nca@gmail.com','04-25-2019',N'Mod','04-25-2019',N'Mod')");
         }
 
         public override void Down()

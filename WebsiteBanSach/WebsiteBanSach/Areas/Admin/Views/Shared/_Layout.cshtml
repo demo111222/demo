@@ -4,6 +4,13 @@
     {
         Response.Redirect("~/Home/Login");
     }
+    else
+    {
+        if(Session["UserGroup"].ToString()=="Member")
+        {
+            Response.Redirect("/Admin/loi/Er403");
+        }
+    }
 }
 
 <!DOCTYPE html>
@@ -15,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="~/img/fav.png" />
-    <title>Karma | </title>
+    <title>Karma | @Session["Name"]</title>
     <!-- Bootstrap -->
     <link href="~/Areas/Admin/Content/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -24,7 +31,6 @@
     <link href="~/Areas/Admin/Content/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="~/Areas/Admin/Content/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-
     <!-- bootstrap-progressbar -->
     <link href="~/Areas/Admin/Content/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
@@ -33,6 +39,9 @@
     <link href="~/Areas/Admin/Content/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="~/Areas/Admin/Content/build/css/custom.min.css" rel="stylesheet">
+    <!-- script addition-->
+    <script src="~/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
 </head>
 <body class="nav-md">
     <div class="container body">
@@ -40,7 +49,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="Index" class="site_title"><img src="~/img/fav.png" /> <span>Karma</span></a>
+                        <a href="/Admin/trang-chu" class="site_title"><img src="~/img/fav.png" /> <span>Karma</span></a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
@@ -61,44 +70,49 @@
                             <h3>Tài khoản</h3>
                             <ul class="nav side-menu">
                                 <li style="border-style:none; background-color:none">
-                                    <a><i class="fa fa-user"></i> Hồ sơ</a>
+                                    <a href="/Admin/trang-chu/nguoi-dung/ho-so-nguoi-dung-@Session["ID"].ToString()"><i class="fa fa-user"></i> Hồ sơ</a>
                                 </li>
-                                <li style="border-style:none; background-color:none">
-                                    <a><i class="fa fa-cog"></i> Cài đặt</a>
-                                </li>
+                                @*<li style="border-style:none; background-color:none">
+                                    <a href="Admin/trang-chu/tai-khoan/cai-dat"><i class="fa fa-cog"></i> Cài đặt</a>
+                                </li>*@
                             </ul>
                         </div>
                         <div class="menu_section">
                             <h3>Danh mục chung</h3>
                             <ul class="nav side-menu">
                                 <li style="border-style:none; background-color:none">
-                                    <a href="Index"><i class="fa fa-home"></i> Trang chủ</a>
+                                    <a href="/Admin/trang-chu"><i class="fa fa-home"></i> Trang chủ</a>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-book"></i> Danh mục <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Sách</a></li>
-                                        <li><a href="form.html">Thể loại</a></li>
-                                        <li><a href="form_advanced.html">Nhà xuất bản</a></li>
-                                        <li><a href="form_validation.html">Tác giả</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/sach">Sách</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/the-loai">Thể loại</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/nha-xuat-ban">Nhà xuất bản</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/tac-gia">Tác giả</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-users"></i>Người dùng<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="general_elements.html">General Elements</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-khach-hang">Danh sách khách hàng</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-quan-tri-vien">Danh sách quản trị viên</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-nguoi-dung-chua-co-nhom">Danh sách người dùng chưa có nhóm</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-nhom-nguoi-dung">Danh sách nhóm người dùng</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-cac-quyen">Danh sách các quyền</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-edit"></i>Đơn đặt hàng<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="general_elements.html">General Elements</a></li>
+                                        <li><a href="/Admin/trang-chu/don-dat-hang/danh-sach">Danh sách</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-bar-chart"></i>Thống kê<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="general_elements.html">Doanh thu</a></li>
+                                        <li><a href="/Admin/trang-chu/thong-ke/doanh-thu">Doanh thu</a></li>
+                                        <li><a href="/Admin/trang-chu/thong-ke/san-pham">Sản phẩm</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -111,12 +125,12 @@
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>
                         @*<a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>*@
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="Home/LogOut">
+                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Lock">
+                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                            </a>*@
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="/Admin/trang-chu/dang-xuat">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -137,13 +151,13 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="javascript:;"> Hồ sơ</a></li>
-                                    <li>
+                                    <li><a href="/Admin/trang-chu/nguoi-dung/ho-so-nguoi-dung-@Session["ID"]"> Hồ sơ cá nhân</a></li>
+                                    @*<li>
                                         <a href="javascript:;">
                                             <span>Cài đặt</span>
                                         </a>
-                                    </li>
-                                    <li><a href="Home/LogOut"><i class="fa fa-sign-out pull-right"></i> Đăng xuất</a></li>
+                                    </li>*@
+                                    <li><a href="/Admin/trang-chu/dang-xuat"><i class="fa fa-sign-out pull-right"></i> Đăng xuất</a></li>
                                 </ul>
                             </li>
                             <li role="presentation" class="dropdown">
@@ -244,70 +258,11 @@
     <script src="~/Areas/Admin/Content/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
     <script src="~/Areas/Admin/Content/vendors/iCheck/icheck.min.js"></script>
-    <!-- Skycons -->
-    <script src="~/Areas/Admin/Content/vendors/skycons/skycons.js"></script>
-    <!-- Flot -->
-    <script src="~/Areas/Admin/Content/vendors/Flot/jquery.flot.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/Flot/jquery.flot.time.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/Flot/jquery.flot.resize.js"></script>
-    <!-- Flot plugins -->
-    <script src="~/Areas/Admin/Content/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/flot.curvedlines/curvedLines.js"></script>
-    <!-- DateJS -->
-    <script src="~/Areas/Admin/Content/vendors/DateJS/build/date.js"></script>
-    <!-- JQVMap -->
-    <script src="~/Areas/Admin/Content/vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="~/Areas/Admin/Content/vendors/moment/min/moment.min.js"></script>
-    <script src="~/Areas/Admin/Content/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- section scripts -->
+    @RenderSection("scripts", false)
     <!-- Custom Theme Scripts -->
-    <script src="~/Areas/Admin/Content/build/js/custom.min.js"></script>
-
+    <script src="~/Areas/Admin/Content/build/js/custom.js"></script>
+    
 </body>
 </html>
 
-@*<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - My ASP.NET Application</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>*@

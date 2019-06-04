@@ -2487,11 +2487,26 @@ if (typeof NProgress != 'undefined') {
 				console.log('run_datatables');
 				
 				if( typeof ($.fn.DataTable) === 'undefined'){ return; }
-				console.log('init_DataTables');
-				
-				var handleDataTableButtons = function() {
-				  if ($("#datatable-buttons").length) {
-					$("#datatable-buttons").DataTable({
+                console.log('init_DataTables');
+
+                var handleDataTableButtons = function () {
+                    if ($("#datatable-buttons").length) {
+                    $("#datatable-buttons").dataTable({
+                        "language": {
+                            "info": "Hiển thị kết quả từ _START_ đến _END_ trong tổng _TOTAL_ kết quả",
+                            "infoEmpty": "Không có kết quả nào cả",
+                            "InfoFiltered": "(lọc từ _MAX_ kết quả)",
+                            "paginate": {
+                                "previous": "Trang trước",
+                                "next": "Trang kế"
+                            },
+                            "lengthMenu": "Hiển thị _MENU_ kết quả",
+                            "search": "Tìm kiếm: ",
+                            "zeroRecords": "Không có tìm thấy kết quả phù hợp",
+                        },
+                        "oLanguage": {
+                            "sInfoFiltered": "(lọc từ _MAX_ kết quả)"
+                        },
 					  dom: "Blfrtip",
 					  buttons: [
 						{
@@ -3280,12 +3295,16 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_line').length ){ 
 			  
-			  var echartLine = echarts.init(document.getElementById('echart_line'), theme);
-
+              //biến ngày hiện tại
+                var current = new Date();
+                var year = current.getFullYear();
+                var echartLine = echarts.init(document.getElementById('echart_line'), theme);
+                var text = year.toString();
+                var max = 100;
 			  echartLine.setOption({
 				title: {
-				  text: 'Line Graph',
-				  subtext: 'Subtitle'
+				  text: 'Biểu đồ hiển thị doanh thu theo tháng',
+				  subtext: text
 				},
 				tooltip: {
 				  trigger: 'axis'
@@ -3293,7 +3312,7 @@ if (typeof NProgress != 'undefined') {
 				legend: {
 				  x: 220,
 				  y: 40,
-				  data: ['Intent', 'Pre-order', 'Deal']
+				  data: ['Đơn hàng đã hủy', 'Đơn hàng chưa hoàn thành', 'Đơn hàng đã hoàn thành']
 				},
 				toolbox: {
 				  show: true,
@@ -3322,13 +3341,13 @@ if (typeof NProgress != 'undefined') {
 				xAxis: [{
 				  type: 'category',
 				  boundaryGap: false,
-				  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+				  data: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12']
 				}],
 				yAxis: [{
 				  type: 'value'
 				}],
 				series: [{
-				  name: 'Deal',
+				  name: 'Đơn hàng đã hoàn thành',
 				  type: 'line',
 				  smooth: true,
 				  itemStyle: {
@@ -3338,9 +3357,9 @@ if (typeof NProgress != 'undefined') {
 					  }
 					}
 				  },
-				  data: [10, 12, 21, 54, 260, 830, 710]
+				  data: [max, 12, 21, 54, 260, 830, 710]
 				}, {
-				  name: 'Pre-order',
+				  name: 'Đơn hàng chưa hoàn thành',
 				  type: 'line',
 				  smooth: true,
 				  itemStyle: {
@@ -3352,7 +3371,7 @@ if (typeof NProgress != 'undefined') {
 				  },
 				  data: [30, 182, 434, 791, 390, 30, 10]
 				}, {
-				  name: 'Intent',
+				  name: 'Đơn hàng đã hủy',
 				  type: 'line',
 				  smooth: true,
 				  itemStyle: {

@@ -53,7 +53,22 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -135,7 +150,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AuthorsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BooksController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PublishersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportAndStatiticController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleAndPermissionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -156,6 +180,10 @@
     <Compile Include="Migrations\201904200445229_PopulatedUserTable.Designer.cs">
       <DependentUpon>201904200445229_PopulatedUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904211127444_PopulateCategoriesTable.cs" />
+    <Compile Include="Migrations\201904211127444_PopulateCategoriesTable.Designer.cs">
+      <DependentUpon>201904211127444_PopulateCategoriesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
@@ -169,6 +197,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ViewOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Content\build\css\custom.css" />
@@ -188,6 +217,7 @@
     <Content Include="Areas\Admin\Content\build\images\loading.gif" />
     <Content Include="Areas\Admin\Content\build\images\mastercard.png" />
     <Content Include="Areas\Admin\Content\build\images\media.jpg" />
+    <Content Include="Areas\Admin\Content\build\images\NXB-Tre.jpg" />
     <Content Include="Areas\Admin\Content\build\images\paypal.png" />
     <Content Include="Areas\Admin\Content\build\images\picture.jpg" />
     <Content Include="Areas\Admin\Content\build\images\prod-1.jpg" />
@@ -202,6 +232,38 @@
     <Content Include="Areas\Admin\Content\build\js\datepicker\daterangepicker.js" />
     <Content Include="Areas\Admin\Content\build\js\helpers\smartresize.js" />
     <Content Include="Areas\Admin\Content\build\js\moment\moment.min.js" />
+    <Content Include="Areas\Admin\Content\cartjs\cart.js" />
+    <Content Include="Areas\Admin\Content\cartjs\cart.min.js" />
+    <Content Include="Areas\Admin\Content\cartjs\rivets-cart.js" />
+    <Content Include="Areas\Admin\Content\cartjs\rivets-cart.min.js" />
+    <Content Include="Areas\Admin\Content\orderjs\order.js" />
+    <Content Include="Areas\Admin\Content\orderjs\styles.css" />
+    <Content Include="Areas\Admin\Content\template\Addpertog.html" />
+    <Content Include="Areas\Admin\Content\template\Addpertogpassive.html" />
+    <Content Include="Areas\Admin\Content\template\add_au.html" />
+    <Content Include="Areas\Admin\Content\template\add_b.html" />
+    <Content Include="Areas\Admin\Content\template\add_cate.html" />
+    <Content Include="Areas\Admin\Content\template\add_pub.html" />
+    <Content Include="Areas\Admin\Content\template\Create_ug.html" />
+    <Content Include="Areas\Admin\Content\template\delete_au.html" />
+    <Content Include="Areas\Admin\Content\template\delete_b.html" />
+    <Content Include="Areas\Admin\Content\template\delete_cate.html" />
+    <Content Include="Areas\Admin\Content\template\delete_pub.html" />
+    <Content Include="Areas\Admin\Content\template\Delete_ug.html" />
+    <Content Include="Areas\Admin\Content\template\Delete_ug_passive.html" />
+    <Content Include="Areas\Admin\Content\template\Dele_per_from_ugroup.html" />
+    <Content Include="Areas\Admin\Content\template\edit_au.html" />
+    <Content Include="Areas\Admin\Content\template\edit_b.html" />
+    <Content Include="Areas\Admin\Content\template\edit_cate.html" />
+    <Content Include="Areas\Admin\Content\template\delete_user_allref.html" />
+    <Content Include="Areas\Admin\Content\template\edit_o.html" />
+    <Content Include="Areas\Admin\Content\template\edit_od.html" />
+    <Content Include="Areas\Admin\Content\template\edit_o_2.html" />
+    <Content Include="Areas\Admin\Content\template\edit_pub.html" />
+    <Content Include="Areas\Admin\Content\template\Edit_ug.html" />
+    <Content Include="Areas\Admin\Content\template\newpassword_member.html" />
+    <Content Include="Areas\Admin\Content\template\newprofile.html" />
+    <Content Include="Areas\Admin\Content\template\delete_od.html" />
     <Content Include="Areas\Admin\Content\vendors\animate.css\animate.css" />
     <Content Include="Areas\Admin\Content\vendors\animate.css\animate.min.css" />
     <Content Include="Areas\Admin\Content\vendors\animate.css\gulpfile.js" />
@@ -3723,6 +3785,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\Linearicons-Free.svg" />
     <Content Include="Content\fonts\themify.svg" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -3918,6 +3981,10 @@
     <Content Include="img\sd\c4.jpg" />
     <Content Include="img\sd\c5.jpg" />
     <Content Include="img\user.png" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\css\.DS_Store" />
@@ -3965,7 +4032,9 @@
     <Content Include="Content\scss\theme\_product.scss" />
     <Content Include="Content\scss\theme\_reset.scss" />
     <Content Include="Content\scss\theme\_variables.scss" />
-    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
@@ -4845,6 +4914,60 @@
     <Content Include="Areas\Admin\Content\vendors\validator\.bower.json" />
     <Content Include="Areas\Admin\Content\vendors\validator\README.md" />
     <Content Include="Areas\Admin\Content\vendors\validator\validator.jquery.json" />
+    <Content Include="Areas\Admin\Views\Categories\Categories.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Details.cshtml" />
+    <Content Include="fonts\vuArial.ttf" />
+    <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_404.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Er404.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Publishers\Publishers.cshtml" />
+    <Content Include="Areas\Admin\Views\Publishers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Publishers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Publishers\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Publishers\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Authors\Authors.cshtml" />
+    <Content Include="Areas\Admin\Views\Authors\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Authors\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Authors\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Authors\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\Books.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Orders.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\EditDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\DeleteDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Users.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\UserProfile.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ProfilePartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\EditPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\EditProfile.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteUserPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Er403.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_403.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportAndStatitic\Profit.cshtml" />
+    <Content Include="Areas\Admin\Views\ReportAndStatitic\Product.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\ErOrderFalse.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ErOrderFalse.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Employee.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\UserGroups.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\AddPerToGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\DeletePerFromGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\DeleteAllPerFromGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\StandbyAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\RoleAndPermission\Role.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -4870,6 +4993,70 @@
     <Content Include="Scripts\js\vendor\jquery-2.2.4.min.js" />
     <Content Include="Scripts\js\vendor\popper.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="tinymce\changelog.txt" />
+    <Content Include="tinymce\js\tinymce\jquery.tinymce.min.js" />
+    <Content Include="tinymce\js\tinymce\license.txt" />
+    <Content Include="tinymce\js\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\bbcode\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\codesample\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\colorpicker\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\contextmenu\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\emoticons\js\emojis.js" />
+    <Content Include="tinymce\js\tinymce\plugins\emoticons\js\emojis.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\fullpage\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\help\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\hr\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\imagetools\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\noneditable\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\paste\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\print\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\quickbars\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\spellchecker\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\tabfocus\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\textcolor\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\textpattern\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\toc\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="tinymce\js\tinymce\skins\content\default\content.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\content\document\content.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\content\writer\content.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide-dark\content.inline.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide-dark\content.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide-dark\skin.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide\content.inline.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide\content.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide\content.mobile.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide\skin.min.css" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide\skin.mobile.min.css" />
+    <Content Include="tinymce\js\tinymce\themes\mobile\theme.min.js" />
+    <Content Include="tinymce\js\tinymce\themes\silver\theme.min.js" />
+    <Content Include="tinymce\js\tinymce\tinymce.min.js" />
+    <Content Include="tinymce\LICENSE.TXT" />
     <Content Include="Views\Home\img\banner\banner-bg.jpg" />
     <Content Include="Views\Home\img\banner\banner-img.png" />
     <Content Include="Views\Home\img\banner\common-banner.jpg" />
@@ -5080,10 +5267,15 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="tinymce\js\tinymce\langs\readme.md" />
+    <Content Include="tinymce\js\tinymce\skins\ui\oxide\fonts\tinymce-mobile.woff" />
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_PDFOrderPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -5111,6 +5303,9 @@
     <EmbeddedResource Include="Migrations\201904200445229_PopulatedUserTable.resx">
       <DependentUpon>201904200445229_PopulatedUserTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904211127444_PopulateCategoriesTable.resx">
+      <DependentUpon>201904211127444_PopulateCategoriesTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Admin\Content\vendors\devbridge-autocomplete\src\jquery.autocomplete.d.ts" />
@@ -5118,6 +5313,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{b3cfdf5d-02d9-406b-9442-7b8d0ed33a4c}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

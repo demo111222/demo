@@ -1,0 +1,172 @@
+﻿@model WebsiteBanSach.Models.OrderDetail
+
+@{
+    ViewBag.Title = "EditDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/danh-sach">Đơn đặt hàng</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/sua-don-dat-hang-@Model.OrderID">Sửa đơn hàng @Model.OrderID</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/sua-chi-tiet-don-dat-hang-@Model.OrderID/ma-sach-@Model.BookID">Sửa sản phẩm @Model.Book.Name</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Sửa sản phẩm @Model.Book.Name</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        @using (Html.BeginForm("EditDetail", "Orders", FormMethod.Post, new { @id = "demo-form2", @class = "form-horizontal form-label-left" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="">
+                                @if (@ViewBag.Error != null)
+                                {
+                                    <h3 class="alert alert-danger">@ViewBag.Error</h3>
+                                }
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.OrderID)
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.OrderID, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class = "form-control col-md-7 col-xs-12">@Model.OrderID</div>
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Book.Name, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-control col-md-7 col-xs-12">@Model.Book.Name</div>
+                                        @Html.ValidationMessageFor(model => model.Book.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "field1" } })
+                                        @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-control col-md-7 col-xs-12">@Model.Price</div>
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white; margin-top:12px"><i class="fa fa-edit"></i>  Sửa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <a href="/Admin/trang-chu/don-dat-hang/sua-don-dat-hang-@Model.OrderID"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                    <a href="/Admin/trang-chu/don-dat-hang/xoa-chi-tiet-don-dat-hang-@Model.OrderID/ma-sach-@Model.BookID"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-times"></i> Xóa</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section scripts
+{
+    <script>
+        $("#field1").change(function () {
+            var n = $("#field1").val();
+            if (isNaN(n) || n <= 0) {
+                n = 1
+            }
+            update(n);
+        });
+        function update(n) {
+            $("#field1").val(n);
+        }
+    </script>
+}
+
+
+@*<h2>EditDetail</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>OrderDetail</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.OrderID)
+
+            @Html.HiddenFor(model => model.BookID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@

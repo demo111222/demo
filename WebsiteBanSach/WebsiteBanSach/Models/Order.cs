@@ -41,11 +41,11 @@ namespace WebsiteBanSach.Models
 
         //Trạng thái giao hàng
         [Display(Name = "Trạng thái giao hàng")]
-        public bool DeliveryStatus { get; set; }
+        public bool? DeliveryStatus { get; set; }
 
         //Trạng thái thanh toán
         [Display(Name = "Trạng thái thanh toán")]
-        public bool CheckoutStatus { get; set; }
+        public bool? CheckoutStatus { get; set; }
 
         //Khai báo khóa ngoại
         public virtual User User { get; set; }

@@ -77,7 +77,6 @@ D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Antlr3.Runtime.pdb
 D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\System.Diagnostics.DiagnosticSource.xml
 D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.csprojAssemblyReference.cache
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.csproj.CoreCompileInputs.cache
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.csproj.CopyComplete
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.dll
@@ -87,3 +86,16 @@ D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.csproj.GenerateRe
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulateUserGroupTable.resources
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulateRoleTable.resources
 D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulatedUserTable.resources
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\PagedList.dll
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\PagedList.Mvc.dll
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\PagedList.xml
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\PagedList.Mvc.xml
+D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.Migrations.PopulateCategoriesTable.resources
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\itextsharp.dll
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\itextsharp.xmlworker.dll
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\itextsharp.xml
+D:\DACS\WebsiteBanSach\WebsiteBanSach\obj\Debug\WebsiteBanSach.csprojAssemblyReference.cache
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Common.dll
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Common.pdb
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Common.dll.config
+D:\DACS\WebsiteBanSach\WebsiteBanSach\bin\Rotativa.dll

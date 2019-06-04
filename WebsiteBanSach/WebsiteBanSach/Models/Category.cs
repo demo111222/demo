@@ -16,7 +16,7 @@ namespace WebsiteBanSach.Models
 
         //tên thể loại
         [StringLength(250, ErrorMessage = "Tên loại không được dài hơn 250 ký tự")]
-        [Required(ErrorMessage ="Không được để trống tên loại")]
+        [Required(ErrorMessage ="Không được để trống tên thể loại")]
         [Display(Name = "Tên thể loại")]
         public string Name { get; set; }
 

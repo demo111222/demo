@@ -1,0 +1,254 @@
+﻿@model WebsiteBanSach.Models.Author
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item">Danh mục</li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/tac-gia">Tác giả</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/tac-gia/chi-tiet-@Model.ID/@Model.MetaTitle">Chi tiết tác giả @Model.Name</a></li>
+                    </ol>
+                </nav>
+            </div>
+
+            @*<div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Chi tiết tác giả @Model.Name <small></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            @*<li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a href="#">Settings 1</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>*@
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <section class="content invoice">
+                            <!--This section is going to be printed in PDF-->
+                            <div id="PrintPDF">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ID)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ID)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Name)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.MetaTitle)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.MetaTitle)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Logo)
+                                    </dt>
+
+                                    <dd>
+                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Logo)" align="middle" width="100" />
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Description)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CreatedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CreatedDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CreatedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CreatedBy)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ModifiedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ModifiedDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ModifiedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ModifiedBy)
+                                    </dd>
+
+                                </dl>
+                            </div>
+
+                            <!-- this row will not appear when printing -->
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <button class="btn btn-default" onclick="window.print();" style="background-color:#afb2b7; color:white"><i class="fa fa-print"></i> In</button>
+                                    @*<button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button>*@
+                                    <a href="/Admin/trang-chu/danh-muc/tac-gia"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                    <a href="/Admin/trang-chu/danh-muc/tac-gia/xoa-@Model.ID/@Model.MetaTitle"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-times"></i> Xóa</button></a>
+                                    <a href="/Admin/trang-chu/danh-muc/tac-gia/sua-@Model.ID/@Model.MetaTitle"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> Sửa</button></a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section scripts
+{
+    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSubmit").click(function () {
+                    $("input[name='ExportData']").val($("#PrintPDF").html());
+                });
+            });
+        </script>*@
+}
+@*<h2>Details</h2>
+
+    <div>
+        <h4>Author</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MetaTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MetaTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Logo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Logo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedBy)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

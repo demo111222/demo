@@ -41,7 +41,7 @@ namespace WebsiteBanSach.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost,ValidateInput(false)]
         public ActionResult Register(User user, HttpPostedFileBase fileUpload,string confirmpassword)
         {
             //Khởi tạo mặc định nhóm người dùng là member
@@ -107,10 +107,19 @@ namespace WebsiteBanSach.Controllers
             }
 
             //Email
-            if (user.Phone == null)
+            if (user.Email == null)
             {
                 ViewBag.Error = "Email dùng để liên lạc xin vui lòng không để trống";
                 return View();
+            }
+            else
+            {
+                char[] array = user.Email.ToCharArray();
+                if (user.Email.Contains("@") == false || user.Email.Contains("@.") == true || user.Email.Contains(".@") == true || user.Email.Contains(".com") == false || array[0].ToString() == "@")
+                {
+                    ViewBag.Error = "Email không đúng định dạng. định dạng đúng vd: minh@gmail.com";
+                    return View();
+                }
             }
 
             //Các thông số của Model User được thỏa mãn tiến hành lưu vào csdl
@@ -172,6 +181,8 @@ namespace WebsiteBanSach.Controllers
                     Session["Name"] = usr.Name.ToString();
                     Session["Avatar"] = usr.Avatar;
                     Session["UserGroup"] = usr.UserGroupID;
+                    Session["Phone"] = usr.Phone;
+                    Session["Email"] = usr.Email;
                     if (Session["UserGroup"].ToString() == "Admin" || Session["UserGroup"].ToString() == "Mod")
                     {
                         return RedirectToAction("Index","Admin/Home");/* D:\DACS\WebsiteBanSach\WebsiteBanSach\Areas\Admin\Views\Home\Index.cshtml*/
