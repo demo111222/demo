@@ -1,0 +1,261 @@
+﻿@model WebsiteBanSach.Models.Book
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item">Danh mục</li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/sach">Sách</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/danh-muc/tac-gia/them-moi">Thêm sách mới</a></li>
+                    </ol>
+                </nav>
+            </div>
+
+            @*<div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Thêm sách mới</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        @using (Html.BeginForm("Create", "Books", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "demo-form2", @class = "form-horizontal form-label-left" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (@ViewBag.Error != null)
+                            {
+                                <h3 class="alert alert-danger">@ViewBag.Error</h3>
+                            }
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "field1" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "result" } })
+                                    @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AuthorID, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownList("AuthorID", null, "--chọn tác giả--", htmlAttributes: new { @class = "form-control col-md-7 col-xs-12" })
+                                    @Html.ValidationMessageFor(model => model.AuthorID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownList("CategoryID", null, "--chọn thể loại--", htmlAttributes: new { @class = "form-control col-md-7 col-xs-12" })
+                                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PublisherID, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownList("PublisherID", null, "--chọn nhà xuất bản--", htmlAttributes: new { @class = "form-control col-md-7 col-xs-12" })
+                                    @Html.ValidationMessageFor(model => model.PublisherID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="file" name="fileUpload" />
+                                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea name="Description" class="form-control col-md-7 col-xs-12"></textarea>
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea name="Detail" class="form-control col-md-7 col-xs-12"></textarea>
+                                    @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "field2" } })
+                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Phần trăm giảm giá</label>
+                                <div class="col-md-1 col-sm-1 col-xs-12">
+                                    @Html.DropDownList("drp", new SelectList(ViewBag.Salelist, "Value", "Text"), htmlAttributes: new { @class = "form-control col-md-7 col-xs-12", @id = "percent" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PromotionPrice, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.EditorFor(model => model.PromotionPrice, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @id = "result2" } })
+                                    @Html.ValidationMessageFor(model => model.PromotionPrice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white"><i class="fa fa-plus-square"></i>  Thêm mới</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <a href="/Admin/trang-chu/danh-muc/sach"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section scripts
+{
+    <script>
+        $("#field1").keyup(function () {
+            var n = $("#field1").val();
+            n = n.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            n = n.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ắ|Ằ|Ặ|Ẳ|Ẵ/g, "a");
+            n = n.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            n = n.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "e");
+            n = n.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            n = n.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "i");
+            n = n.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            n = n.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "o");
+            n = n.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            n = n.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "u");
+            n = n.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            n = n.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "y");
+            n = n.replace(/đ/g, "d");
+            n = n.replace(/Đ/g, "d");
+
+            n = n.replace(/ /g, "-");
+            update(n);
+        });
+
+        function update(n) {
+            $("#result").val(n.toLowerCase());
+        }
+
+        $("#field2").keyup(function () {
+            var m = $("#field2").val();
+            updatePP(m);
+        });
+
+        $("#percent").change(function () {
+            // Pure JS
+            var selectedVal = this.value;
+            var selectedText = this.options[this.selectedIndex].text;
+
+            // jQuery
+            var selectedVal = $(this).find(':selected').val();
+            var selectedText = $(this).find(':selected').text();
+            var m = $("#field2").val();
+            updatePP(m);
+        });
+
+        function updatePP(m) {
+            $("#result2").val(m - (m * $('#percent').val() / 100));
+        }
+            //Đơn vị tiền
+            //var format = function (num) {
+            //    var str = num.toString().replace("VNĐ ", ""), parts = false, output = [], i = 1, formatted = null;
+            //    if (str.indexOf(".") > 0) {
+            //        parts = str.split(".");
+            //        str = parts[0];
+            //    }
+            //    str = str.split("").reverse();
+            //    for (var j = 0, len = str.length; j < len; j++) {
+            //        if (str[j] != ",") {
+            //            output.push(str[j]);
+            //            if (i % 3 == 0 && j < (len - 1)) {
+            //                output.push(",");
+            //            }
+            //            i++;
+            //        }
+            //    }
+            //    formatted = output.reverse().join("");
+            //    return ("VNĐ " + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+            //};
+            //$(function () {
+            //    $("#currency").keyup(function (e) {
+            //        $(this).val(format($(this).val()));
+            //    });
+            //});
+            //Đơn vị tiền end
+    </script>
+}

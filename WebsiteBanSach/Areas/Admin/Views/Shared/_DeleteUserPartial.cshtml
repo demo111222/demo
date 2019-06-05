@@ -1,0 +1,1232 @@
+﻿@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)
+    }
+}
+
+@{
+    var date = "";
+    var count = 0;
+    float total = 0;
+    var count1 = 0;
+    var count2 = 0;
+    var count3 = 0;
+    var count4 = 0;
+    float TotalEachProduct = 0;
+    float totalorder = 0;
+    float totalAllOrder = 0;
+    float TotalEachProduct2 = 0;
+    float totalorder2 = 0;
+    float totalAllOrder2 = 0;
+    float TotalEachProduct3 = 0;
+    float totalorder3 = 0;
+    float totalAllOrder3 = 0;
+
+    //lịch sử hoạt động
+    string UserName = Model.UserName.ToString();
+    string Name = Model.Name.ToString();
+    string UserCreatedate = Model.CreatedDate.ToString();
+    string UserModifydate = Model.ModifiedDate.ToString();
+    string UserCreateby = Model.CreatedBy.ToString();
+    string UserModifyby = Model.ModifiedBy.ToString();
+
+    //create
+    string day = UserCreatedate.Substring(0, 2);
+    string month = UserCreatedate.Substring(3, 2);
+    string year = UserCreatedate.Substring(6, 4);
+    string time = UserCreatedate.Substring(10);
+
+    string day2 = UserCreatedate.Substring(0, 2);
+    string month2 = UserCreatedate.Substring(3, 2);
+    string year2 = UserCreatedate.Substring(6, 4);
+    string time2 = UserCreatedate.Substring(10);
+
+    //modified
+    string day1 = UserModifydate.Substring(0, 2);
+    string month1 = UserModifydate.Substring(3, 2);
+    string year1 = UserModifydate.Substring(6, 4);
+    string time1 = UserModifydate.Substring(10);
+}
+
+@if (Model.UserGroupID == "Member")
+{
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Hồ sơ của @Model.Name <small>Username: @Model.UserName</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <h3 class="alert alert-danger">Bạn có chắc là muốn xóa tài khoản @Model.UserName và tất cả thông tin liên quan?</h3>
+                    <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                        <div class="profile_img">
+                            <div id="crop-avatar">
+                                <!-- Current avatar -->
+                                <img class="img-responsive avatar-view" src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" alt="Avatar" title="Change the avatar">
+                            </div>
+                        </div>
+                        <h3>@Model.Name</h3>
+
+                        <ul class="list-unstyled user_data">
+                            <li>
+                                <i class="fa fa-map-marker user-profile-icon"></i> @Model.Address
+                            </li>
+
+                            <li>
+                                @if (Model.Gender == false)
+                                {
+                                    string t = "Nam";
+                                    <i class="fa fa-male user-profile-icon"></i> @t
+                                }
+                                else
+                                {
+                                    if (Model.Gender == true)
+                                    {
+                                        string v = "Nữ";
+                                        <i class="fa fa-female user-profile-icon"></i> @v
+                                    }
+                                    else
+                                    {
+                                        string h = "Chưa xác định";
+                                        <i class="fa fa-genderless user-profile-icon"></i> @h
+                                    }
+                                }
+                            </li>
+
+                            <li>
+                                <i class="fa fa-briefcase user-profile-icon"></i> @Model.UserGroupID
+                            </li>
+
+                            <li>
+                                <i class="fa fa-phone user-profile-icon"></i> @Model.Phone
+                            </li>
+
+                            <li class="m-top-xs">
+                                <i class="fa fa-external-link user-profile-icon"></i>
+                                <a href="http://www.kimlabs.com/profile/" target="_blank"> @Model.Email</a>
+                            </li>
+                        </ul>
+
+                        <a class="btn btn-success" href="/Admin/trang-chu/nguoi-dung/sua-ho-so-nguoi-dung-@Model.ID"><i class="fa fa-edit m-right-xs"></i> Sửa hồ sơ</a>
+                        <br />
+                        <a class="btn btn-success" href="/Admin/trang-chu/nguoi-dung/sua-mat-khau-nguoi-dung-@Model.ID"><i class="fa fa-edit m-right-xs"></i> Đổi mật khẩu</a>
+                        <br />
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white;"><i class="fa fa-edit m-right-xs"></i> Xóa</button>
+                            <br />
+                        }
+
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+
+                        @*<div class="profile_title">
+                <div class="col-md-6">
+                    <h2>Báo cáo hoạt động người dùng</h2>
+                </div>
+                <div class="col-md-6">
+                    <div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        <span>30/12/2014 - 28/1/2015</span> <b class="caret"></b>
+                    </div>
+                </div>
+            </div>*@
+                        <!-- start of user-activity-graph -->
+                        @*<div id="graph_bar" style="width:100%; height:280px;"></div>*@
+                        <!-- end of user-activity-graph -->
+
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Danh sách đơn hàng</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Lịch sử hoạt động</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Thống kê</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                                    <!-- danh sách đơn hàng-->
+
+                                    <table id="datatable-buttons" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Ngày mua</th>
+                                                <th>Số sản phẩm</th>
+                                                <th class="hidden-phone">Tổng tiền</th>
+                                                <th>Trạng thái vận chuyển</th>
+                                                <th>Tình trạng</th>
+                                                <th>Tương tác</th>
+                                                <th>Tương tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.Order)
+                                            {
+                                                date = item.CreatedDate.ToString();
+                                                <tr>
+                                                    <td>
+                                                        @item.ID
+                                                    </td>
+                                                    <td>
+                                                        @Truncate(date, 10)
+                                                    </td>
+                                                    <td>
+                                                        @foreach (var sanpham in ViewBag.OrderDetail)
+                                                        {
+                                                            if (sanpham.OrderID == item.ID)
+                                                            {
+                                                                count += 1;
+                                                            }
+                                                        }
+                                                        @count
+                                                    </td>
+                                                    <td>
+                                                        @foreach (var sanpham in ViewBag.OrderDetail)
+                                                        {
+                                                            if (sanpham.OrderID == item.ID)
+                                                            {
+                                                                total += float.Parse((sanpham.Number * sanpham.Price).ToString());
+                                                            }
+                                                        }
+                                                        @total VNĐ
+                                                    </td>
+                                                    <td>
+                                                        @if (item.DeliveryStatus == true)
+                                                        {
+                                                            <p>Đã giao</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.DeliveryStatus == false)
+                                                            {
+                                                                <p>Đang vận chuyển</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>Đang đóng gói</p>
+                                                            }
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.CheckoutStatus == true)
+                                                        {
+                                                            <p>Đã hoàn thành</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.CheckoutStatus == false)
+                                                            {
+                                                                <p>Đã hủy</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>Đã xác nhận</p>
+                                                            }
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <a href="/Admin/trang-chu/don-dat-hang/sua-don-dat-hang-@item.ID"><button type="button" style="background-color:#f9f9f9; border-style:none; border-color:#2a3f54">Sửa</button></a>
+                                                        <a href="/Admin/trang-chu/don-dat-hang/chi-tiet-don-dat-hang-@item.ID"><button type="button" style="background-color:#f9f9f9; border-style:none; border-color:#2a3f54">Chi tiết</button></a>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <!-- danh sách đơn hàng-->
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                    <div class="profile_title">
+                                        <div class="col-md-6">
+                                            <h2>Đơn hàng</h2>
+                                        </div>
+                                    </div>
+                                    <!-- start recent activity -->
+                                    <ul class="messages">
+
+                                        @foreach (var item in ViewBag.Order1)
+                                        {
+                                            day = item.CreatedDate.ToString().Substring(0, 2);
+                                            month = item.CreatedDate.ToString().Substring(3, 2);
+                                            year = item.CreatedDate.ToString().Substring(6, 4);
+                                            time = item.CreatedDate.ToString().Substring(10);
+                                            <li>
+                                                <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                <div class="message_date">
+                                                    <h3 class="date text-info">
+                                                        @day
+                                                    </h3>
+                                                    <p class="month">Tháng @month</p>
+                                                    <p class="yearselect">@year</p>
+                                                </div>
+                                                <div class="message_wrapper">
+                                                    <h4 class="heading">@UserName</h4>
+                                                    <blockquote class="message">@Name đã lập đơn hàng @item.ID </blockquote>
+                                                    <br />
+                                                    <p class="url">
+                                                        <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                        <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                        }
+                                    </ul>
+                                    <div class="profile_title">
+                                        <div class="col-md-6">
+                                            <h2>Tài khoản</h2>
+                                        </div>
+                                    </div>
+                                    <ul class="messages">
+                                        @if (UserModifyby == UserCreateby)
+                                        {
+                                            <li>
+                                                <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                <div class="message_date">
+                                                    <h3 class="date text-info">
+                                                        @day1
+                                                    </h3>
+                                                    <p class="month">Tháng @month1</p>
+                                                    <p class="yearselect">@year1</p>
+                                                </div>
+                                                <div class="message_wrapper">
+                                                    <h4 class="heading">@UserName</h4>
+                                                    <blockquote class="message">@Name đã cập nhật tài thông tin tài khoản @UserName </blockquote>
+                                                    <br />
+                                                    <p class="url">
+                                                        <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                        <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        }
+                                        <li>
+                                            <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                            <div class="message_date">
+                                                <h3 class="date text-info">
+                                                    @day2
+                                                </h3>
+                                                <p class="month">Tháng @month2</p>
+                                                <p class="yearselect">@year2</p>
+                                            </div>
+                                            <div class="message_wrapper">
+                                                <h4 class="heading">@UserName</h4>
+                                                <blockquote class="message">@Name đã tạo tài khoản @UserName </blockquote>
+                                                <br />
+                                                <p class="url">
+                                                    <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                    <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- end recent activity -->
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                    <P>
+                                    </P>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    if (Model.ID.ToString() == Session["ID"].ToString())
+    {
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Hồ sơ của @Model.Name <small>Username: @Model.UserName</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <h3 class="alert alert-danger">Bạn không thể xóa tài khoản của bản thân được</h3>
+                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                            <div class="profile_img">
+                                <div id="crop-avatar">
+                                    <!-- Current avatar -->
+                                    <img class="img-responsive avatar-view" src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" alt="Avatar" title="Change the avatar">
+                                </div>
+                            </div>
+                            <h3>@Model.Name</h3>
+
+                            <ul class="list-unstyled user_data">
+                                <li>
+                                    <i class="fa fa-map-marker user-profile-icon"></i> @Model.Address
+                                </li>
+
+                                <li>
+                                    @if (Model.Gender == false)
+                                    {
+                                        string t = "Nam";
+                                        <i class="fa fa-male user-profile-icon"></i> @t
+                                    }
+                                    else
+                                    {
+                                        if (Model.Gender == true)
+                                        {
+                                            string v = "Nữ";
+                                            <i class="fa fa-female user-profile-icon"></i> @v
+                                        }
+                                        else
+                                        {
+                                            string h = "Chưa xác định";
+                                            <i class="fa fa-genderless user-profile-icon"></i> @h
+                                        }
+                                    }
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-briefcase user-profile-icon"></i> @Model.UserGroupID
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-phone user-profile-icon"></i> @Model.Phone
+                                </li>
+
+                                <li class="m-top-xs">
+                                    <i class="fa fa-external-link user-profile-icon"></i>
+                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> @Model.Email</a>
+                                </li>
+                            </ul>
+
+                            <a class="btn btn-success" href="/Admin/trang-chu/nguoi-dung/sua-ho-so-nguoi-dung-@Model.ID"><i class="fa fa-edit m-right-xs"></i> Sửa hồ sơ</a>
+                            <br />
+                            <a class="btn btn-success" href="/Admin/trang-chu/nguoi-dung/sua-mat-khau-nguoi-dung-@Model.ID"><i class="fa fa-edit m-right-xs"></i> Đổi mật khẩu</a>
+                            <br />
+                            <!--
+                            <!-- start skills
+                            <h4>Skills</h4>
+                            <ul class="list-unstyled user_data">
+                                <li>
+                                    <p>Web Applications</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>Website Design</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>Automation & Testing</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>UI / UX</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!-- end of skills -->
+
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+
+                            @*<div class="profile_title">
+                                    <div class="col-md-6">
+                                        <h2>Báo cáo hoạt động người dùng</h2>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            <span>30/12/2014 - 28/1/2015</span> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <!-- start of user-activity-graph -->
+                            @*<div id="graph_bar" style="width:100%; height:280px;"></div>*@
+                            <!-- end of user-activity-graph -->
+
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Danh sách đơn hàng</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Lịch sử hoạt động</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Thống kê</a>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                                        <!-- danh sách đơn hàng-->
+                                        @*<table id="datatable-buttons" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã đơn hàng</th>
+                                                        <th>Ngày mua</th>
+                                                        <th>Số sản phẩm</th>
+                                                        <th class="hidden-phone">Tổng tiền</th>
+                                                        <th>Trạng thái vận chuyển</th>
+                                                        <th>Tình trạng</th>
+                                                        <th>Tương tác</th>
+                                                        <th>Tương tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in ViewBag.Order)
+                                                    {
+                                                        date = item.CreatedDate.ToString();
+                                                        <tr>
+                                                            <td>
+                                                                @item.ID
+                                                            </td>
+                                                            <td>
+                                                                @Truncate(date, 10)
+                                                            </td>
+                                                            <td>
+                                                                @foreach (var sanpham in ViewBag.OrderDetail)
+                                                                {
+                                                                    if (sanpham.OrderID == item.ID)
+                                                                    {
+                                                                        count += 1;
+                                                                    }
+                                                                }
+                                                                @count
+                                                            </td>
+                                                            <td>
+                                                                @foreach (var sanpham in ViewBag.OrderDetail)
+                                                                {
+                                                                    if (sanpham.OrderID == item.ID)
+                                                                    {
+                                                                        total += float.Parse((sanpham.Number * sanpham.Price).ToString());
+                                                                    }
+                                                                }
+                                                                @total VNĐ
+                                                            </td>
+                                                            <td>
+                                                                @if (item.DeliveryStatus == true)
+                                                                {
+                                                                    <p>Đã giao</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (item.DeliveryStatus == false)
+                                                                    {
+                                                                        <p>Đang vận chuyển</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>Đang đóng gói</p>
+                                                                    }
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @if (item.CheckoutStatus == true)
+                                                                {
+                                                                    <p>Đã hoàn thành</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (item.CheckoutStatus == false)
+                                                                    {
+                                                                        <p>Đã hủy</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>Đã xác nhận</p>
+                                                                    }
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                <a href="/Admin/trang-chu/don-dat-hang/sua-don-dat-hang-@item.ID"><button type="button" style="background-color:#f9f9f9; border-style:none; border-color:#2a3f54">Sửa</button></a>
+                                                                <a href="/Admin/trang-chu/don-dat-hang/chi-tiet-don-dat-hang-@item.ID"><button type="button" style="background-color:#f9f9f9; border-style:none; border-color:#2a3f54">Chi tiết</button></a>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>*@
+                                        <!-- danh sách đơn hàng-->
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Đơn hàng</h2>
+                                            </div>
+                                        </div>
+                                        <!-- start recent activity -->
+                                        @*<ul class="messages">
+
+                                                @foreach (var item in ViewBag.Order1)
+                                                {
+                                                    day = item.CreatedDate.ToString().Substring(0, 2);
+                                                    month = item.CreatedDate.ToString().Substring(3, 2);
+                                                    year = item.CreatedDate.ToString().Substring(6, 4);
+                                                    time = item.CreatedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã lập đơn hàng @item.ID </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                                <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                                <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                }
+                                            </ul>*@
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Tài khoản</h2>
+                                            </div>
+                                        </div>
+                                        <ul class="messages">
+                                            @if (UserModifyby == UserCreateby)
+                                            {
+                                                <li>
+                                                    <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                    <div class="message_date">
+                                                        <h3 class="date text-info">
+                                                            @day1
+                                                        </h3>
+                                                        <p class="month">Tháng @month1</p>
+                                                        <p class="yearselect">@year1</p>
+                                                    </div>
+                                                    <div class="message_wrapper">
+                                                        <h4 class="heading">@UserName</h4>
+                                                        <blockquote class="message">@Name đã cập nhật tài thông tin tài khoản @UserName </blockquote>
+                                                        <br />
+                                                        <p class="url">
+                                                            <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                            <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            }
+                                            <li>
+                                                <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                <div class="message_date">
+                                                    <h3 class="date text-info">
+                                                        @day2
+                                                    </h3>
+                                                    <p class="month">Tháng @month2</p>
+                                                    <p class="yearselect">@year2</p>
+                                                </div>
+                                                <div class="message_wrapper">
+                                                    <h4 class="heading">@UserName</h4>
+                                                    <blockquote class="message">@Name đã tạo tài khoản @UserName </blockquote>
+                                                    <br />
+                                                    <p class="url">
+                                                        <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                        <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <!-- end recent activity -->
+
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                        <p>
+                                            @*Thống kê
+                                                <br />
+                                                Tổng số lượng đơn hàng:
+                                                @foreach (var item in ViewBag.Order)
+                                                {
+                                                    count1++;
+                                                    foreach (var sanpham in ViewBag.OrderDetail)
+                                                    {
+                                                        if (sanpham.OrderID == item.ID)
+                                                        {
+                                                            TotalEachProduct = float.Parse((sanpham.Number * sanpham.Price).ToString());
+                                                            totalorder += TotalEachProduct;
+                                                        }
+                                                        totalAllOrder += totalorder;
+                                                    }
+                                                    if (item.CheckoutStatus == true)
+                                                    {
+                                                        count2++;
+                                                        foreach (var sanpham in ViewBag.OrderDetail)
+                                                        {
+                                                            if (sanpham.OrderID == item.ID)
+                                                            {
+                                                                TotalEachProduct2 = float.Parse((sanpham.Number * sanpham.Price).ToString());
+                                                                totalorder2 += TotalEachProduct;
+                                                            }
+                                                            totalAllOrder2 += totalorder;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.CheckoutStatus == false)
+                                                        {
+                                                            count3++;
+                                                        }
+                                                        else
+                                                        {
+                                                            count4++;
+                                                            foreach (var sanpham in ViewBag.OrderDetail)
+                                                            {
+                                                                if (sanpham.OrderID == item.ID)
+                                                                {
+                                                                    TotalEachProduct3 = float.Parse((sanpham.Number * sanpham.Price).ToString());
+                                                                    totalorder3 += TotalEachProduct;
+                                                                }
+                                                                totalAllOrder3 += totalorder;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                @count1
+                                                <br />
+                                                Số đơn hàng đã hoàn thành: @count2
+                                                <br />
+                                                Số đơn hàng bị hủy: @count3
+                                                <br />
+                                                Tổng giá trị tất cả đơn hàng đã xác nhận: @totalAllOrder3
+                                                <br />
+                                                Tổng giá trị tất cả đơn hàng đã hoàn thành: @totalAllOrder2*@
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Hồ sơ của @Model.Name <small>Username: @Model.UserName</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                            <div class="profile_img">
+                                <div id="crop-avatar">
+                                    <!-- Current avatar -->
+                                    <img class="img-responsive avatar-view" src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" alt="Avatar" title="Change the avatar">
+                                </div>
+                            </div>
+                            <h3>@Model.Name</h3>
+
+                            <ul class="list-unstyled user_data">
+                                <li>
+                                    <i class="fa fa-map-marker user-profile-icon"></i> @Model.Address
+                                </li>
+
+                                <li>
+                                    @if (Model.Gender == false)
+                                    {
+                                        string t = "Nam";
+                                        <i class="fa fa-male user-profile-icon"></i> @t
+                                    }
+                                    else
+                                    {
+                                        if (Model.Gender == true)
+                                        {
+                                            string v = "Nữ";
+                                            <i class="fa fa-female user-profile-icon"></i> @v
+                                        }
+                                        else
+                                        {
+                                            string h = "Chưa xác định";
+                                            <i class="fa fa-genderless user-profile-icon"></i> @h
+                                        }
+                                    }
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-briefcase user-profile-icon"></i> @Model.UserGroupID
+                                </li>
+
+                                <li>
+                                    <i class="fa fa-phone user-profile-icon"></i> @Model.Phone
+                                </li>
+
+                                <li class="m-top-xs">
+                                    <i class="fa fa-external-link user-profile-icon"></i>
+                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> @Model.Email</a>
+                                </li>
+                            </ul>
+
+                            <a class="btn btn-success" href="/Admin/trang-chu/nguoi-dung/sua-ho-so-nguoi-dung-@Model.ID"><i class="fa fa-edit m-right-xs"></i> Sửa hồ sơ</a>
+                            <br />
+                            <a class="btn btn-success" href="/Admin/trang-chu/nguoi-dung/sua-mat-khau-nguoi-dung-@Model.ID"><i class="fa fa-edit m-right-xs"></i> Đổi mật khẩu</a>
+                            <br />
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white;"><i class="fa fa-edit m-right-xs"></i> Xóa</button>
+                                <br />
+                            }
+                            <!--
+                            <!-- start skills
+                            <h4>Skills</h4>
+                            <ul class="list-unstyled user_data">
+                                <li>
+                                    <p>Web Applications</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>Website Design</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>Automation & Testing</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>UI / UX</p>
+                                    <div class="progress progress_sm">
+                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!-- end of skills -->
+
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+
+                            @*<div class="profile_title">
+                                    <div class="col-md-6">
+                                        <h2>Báo cáo hoạt động người dùng</h2>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            <span>30/12/2014 - 28/1/2015</span> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <!-- start of user-activity-graph -->
+                            @*<div id="graph_bar" style="width:100%; height:280px;"></div>*@
+                            <!-- end of user-activity-graph -->
+
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    @*<li role="presentation" class="active">
+                                        <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Danh sách đơn hàng</a>
+                                    </li>*@
+                                    <li role="presentation" class="">
+                                        <a href="#tab_content2" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Lịch sử hoạt động</a>
+                                    </li>
+                                    @*<li role="presentation" class="">
+                                        <a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Thống kê</a>
+                                    </li>*@
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content2" aria-labelledby="home-tab">
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Sách</h2>
+                                            </div>
+                                        </div>
+                                        <ul class="messages">
+                                            @if (ViewBag.Book1 != null)
+                                            {
+                                                foreach (var item in ViewBag.Book1)
+                                                {
+                                                    day = item.ModifiedDate.ToString().Substring(0, 2);
+                                                    month = item.ModifiedDate.ToString().Substring(3, 2);
+                                                    year = item.ModifiedDate.ToString().Substring(6, 4);
+                                                    time = item.ModifiedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã cập nhật thông tin sách @item.Name </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                            @if (ViewBag.Book != null)
+                                            {
+                                                foreach (var item in ViewBag.Book)
+                                                {
+                                                    day = item.CreatedDate.ToString().Substring(0, 2);
+                                                    month = item.CreatedDate.ToString().Substring(3, 2);
+                                                    year = item.CreatedDate.ToString().Substring(6, 4);
+                                                    time = item.CreatedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã thêm sách @item.Name </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Thể loại</h2>
+                                            </div>
+                                        </div>
+                                        <ul class="messages">
+                                            @if (ViewBag.Category1 != null)
+                                            {
+                                                foreach (var item in ViewBag.Category1)
+                                                {
+                                                    day = item.ModifiedDate.ToString().Substring(0, 2);
+                                                    month = item.ModifiedDate.ToString().Substring(3, 2);
+                                                    year = item.ModifiedDate.ToString().Substring(6, 4);
+                                                    time = item.ModifiedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã cập nhật thông tin thể loại @item.Name </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                            @if (ViewBag.Category != null)
+                                            {
+                                                foreach (var item in ViewBag.Category)
+                                                {
+                                                    day = item.CreatedDate.ToString().Substring(0, 2);
+                                                    month = item.CreatedDate.ToString().Substring(3, 2);
+                                                    year = item.CreatedDate.ToString().Substring(6, 4);
+                                                    time = item.CreatedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã thêm thể loại @item.Name </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Tác giả</h2>
+                                            </div>
+                                        </div>
+                                        <ul class="messages">
+                                            @foreach (var item in ViewBag.Author1)
+                                            {
+                                                day = item.ModifiedDate.ToString().Substring(0, 2);
+                                                month = item.ModifiedDate.ToString().Substring(3, 2);
+                                                year = item.ModifiedDate.ToString().Substring(6, 4);
+                                                time = item.ModifiedDate.ToString().Substring(10);
+                                                <li>
+                                                    <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                    <div class="message_date">
+                                                        <h3 class="date text-info">
+                                                            @day
+                                                        </h3>
+                                                        <p class="month">Tháng @month</p>
+                                                        <p class="yearselect">@year</p>
+                                                    </div>
+                                                    <div class="message_wrapper">
+                                                        <h4 class="heading">@UserName</h4>
+                                                        <blockquote class="message">@Name đã cập nhật thông tin thể loại @item.Name </blockquote>
+                                                        <br />
+                                                        <p class="url">
+                                                        </p>
+                                                        <br />
+                                                    </div>
+                                                </li>
+                                            }
+                                            @foreach (var item in ViewBag.Author)
+                                            {
+                                                day = item.CreatedDate.ToString().Substring(0, 2);
+                                                month = item.CreatedDate.ToString().Substring(3, 2);
+                                                year = item.CreatedDate.ToString().Substring(6, 4);
+                                                time = item.CreatedDate.ToString().Substring(10);
+                                                <li>
+                                                    <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                    <div class="message_date">
+                                                        <h3 class="date text-info">
+                                                            @day
+                                                        </h3>
+                                                        <p class="month">Tháng @month</p>
+                                                        <p class="yearselect">@year</p>
+                                                    </div>
+                                                    <div class="message_wrapper">
+                                                        <h4 class="heading">@UserName</h4>
+                                                        <blockquote class="message">@Name đã thêm thể loại @item.Name </blockquote>
+                                                        <br />
+                                                        <p class="url">
+                                                        </p>
+                                                        <br />
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Nhà xuẩt bản</h2>
+                                            </div>
+                                        </div>
+                                        <ul class="messages">
+                                            @if (ViewBag.Publisher1 != null)
+                                            {
+                                                foreach (var item in ViewBag.Publisher1)
+                                                {
+                                                    day = item.ModifiedDate.ToString().Substring(0, 2);
+                                                    month = item.ModifiedDate.ToString().Substring(3, 2);
+                                                    year = item.ModifiedDate.ToString().Substring(6, 4);
+                                                    time = item.ModifiedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã cập nhật thông tin thể loại @item.Name </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                            @if (ViewBag.Publisher != null)
+                                            {
+                                                foreach (var item in ViewBag.Publisher)
+                                                {
+                                                    day = item.CreatedDate.ToString().Substring(0, 2);
+                                                    month = item.CreatedDate.ToString().Substring(3, 2);
+                                                    year = item.CreatedDate.ToString().Substring(6, 4);
+                                                    time = item.CreatedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã thêm thể loại @item.Name </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Đơn hàng</h2>
+                                            </div>
+                                        </div>
+                                        <!-- start recent activity -->
+                                        <ul class="messages">
+                                            @if (ViewBag.Order2 != null)
+                                            {
+                                                foreach (var item in ViewBag.Order2)
+                                                {
+                                                    day = item.ModifiedDate.ToString().Substring(0, 2);
+                                                    month = item.ModifiedDate.ToString().Substring(3, 2);
+                                                    year = item.ModifiedDate.ToString().Substring(6, 4);
+                                                    time = item.ModifiedDate.ToString().Substring(10);
+                                                    <li>
+                                                        <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                        <div class="message_date">
+                                                            <h3 class="date text-info">
+                                                                @day
+                                                            </h3>
+                                                            <p class="month">Tháng @month</p>
+                                                            <p class="yearselect">@year</p>
+                                                        </div>
+                                                        <div class="message_wrapper">
+                                                            <h4 class="heading">@UserName</h4>
+                                                            <blockquote class="message">@Name đã cập nhật thông tin đơn hàng @item.ID </blockquote>
+                                                            <br />
+                                                            <p class="url">
+                                                            </p>
+                                                            <br />
+                                                        </div>
+                                                    </li>
+
+                                                }
+                                            }
+                                        </ul>
+                                        <div class="profile_title">
+                                            <div class="col-md-6">
+                                                <h2>Tài khoản</h2>
+                                            </div>
+                                        </div>
+                                        <ul class="messages">
+                                            @if (UserModifyby == UserCreateby)
+                                            {
+                                                <li>
+                                                    <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                    <div class="message_date">
+                                                        <h3 class="date text-info">
+                                                            @day1
+                                                        </h3>
+                                                        <p class="month">Tháng @month1</p>
+                                                        <p class="yearselect">@year1</p>
+                                                    </div>
+                                                    <div class="message_wrapper">
+                                                        <h4 class="heading">@UserName</h4>
+                                                        <blockquote class="message">@Name đã cập nhật tài thông tin tài khoản @UserName </blockquote>
+                                                        <br />
+                                                        <p class="url">
+                                                        </p>
+                                                        <br />
+                                                    </div>
+                                                </li>
+                                            }
+                                            <li>
+                                                <img src="@Url.Content("~/Areas/Admin/Content/build/images/"+ @Model.Avatar)" class="avatar" alt="Avatar">
+                                                <div class="message_date">
+                                                    <h3 class="date text-info">
+                                                        @day2
+                                                    </h3>
+                                                    <p class="month">Tháng @month2</p>
+                                                    <p class="yearselect">@year2</p>
+                                                </div>
+                                                <div class="message_wrapper">
+                                                    <h4 class="heading">@UserName</h4>
+                                                    <blockquote class="message">@Name đã tạo tài khoản @UserName </blockquote>
+                                                    <br />
+                                                    <p class="url">
+                                                    </p>
+                                                    <br />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <!-- end recent activity -->
+
+                                    </div>
+                                    @*<div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                        <p>
+                                        </p>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+

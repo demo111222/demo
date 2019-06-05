@@ -1,0 +1,181 @@
+﻿
+@{
+    double total = 0;
+    double price = 0;
+    double item_price = 0;
+    double order = 0;
+    DateTime a = DateTime.Now;
+
+    string email = Session["Email"].ToString();
+    string phone = Session["Phone"].ToString();
+    string name = Session["Name"].ToString();
+
+
+}
+
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @Html.Raw(input)
+    }
+    else
+    {
+        @Html.Raw(input.Substring(0, length))<text >...</text>
+    }
+}
+
+<section class="content invoice">
+    <!-- title row -->
+    <div class="row">
+        <div class="col-xs-12 invoice-header">
+            <h1>
+                <i class="fa fa-globe"></i> BenVo.
+                <small class="pull-right">Ngày: @a</small>
+            </h1>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- info row -->
+    <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+            Hóa đơn lập bởi
+            <address>
+                <strong>@name</strong>
+                <br>Địa chỉ: 555 Đinh Thanh Hùng, Cao ốc VTX tầng 55, công ty cổ phần Karma
+                <br>Số điện thoại: @phone
+                <br>Email: @email
+            </address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            Đơn hàng của
+            <address>
+                <strong>@Model.User.Name</strong>
+                <br>Địa chỉ nhận hàng: @Model.User.Address
+                <br>Số điện thoại: @Model.User.Phone
+                <br>Email: @Model.User.Email
+            </address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            <b>Đơn hàng #@Model.ID</b>
+            <br>
+            <br>
+            <b>Ngày lập đơn hàng:</b> @Model.CreatedDate
+            <br>
+            <b>Ngày cập nhật:</b> @Model.ModifiedDate
+            <br>
+            <b>Tên tài khoản mua hàng:</b> @Model.UserID
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-xs-12 table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Số lượng&nbsp;&nbsp;</th>
+                        <th>Tên sản phẩm&nbsp;&nbsp;</th>
+                        <th>Mã sản phẩm&nbsp;&nbsp;</th>
+                        <th style="width: 25%">Mô tả&nbsp;&nbsp;</th>
+                        <th>Tổng tiền sản phẩm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in ViewBag.Detail)
+                        {
+                            total = item.Number;
+                            price = double.Parse(item.Price.ToString());
+                            item_price = total * price;
+                            order += item_price;
+                            string description = item.Book.Description;
+                            <tr>
+                                <td>
+                                    @item.Number
+                                </td>
+                                <td>
+                                    @item.Book.Name
+                                </td>
+                                <td>
+                                    @item.Book.ID
+                                </td>
+                                <td>
+                                    @Truncate(description, 12)
+                                </td>
+                                <td>
+                                    @price VNĐ
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <br />
+    <div class="row">
+        <!-- accepted payments column -->
+        <!-- /.col -->
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <table id="datatable-buttons" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn đặt hàng&nbsp;&nbsp;</th>
+                            <th>Tên sách&nbsp;&nbsp;</th>
+                            <th>Số lượng&nbsp;&nbsp;</th>
+                            <th>Giá/quyển&nbsp;&nbsp;</th>
+                            <th>Giá tổng</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in ViewBag.Detail)
+                            {
+                                total = item.Number;
+                                price = double.Parse(item.Price.ToString());
+                                item_price = total * price;
+                                order += item_price;
+                                <tr>
+                                    <td>
+                                        @item.OrderID
+                                    </td>
+                                    <td>
+                                        @item.Book.Name
+                                    </td>
+                                    <td>
+                                        @item.Number
+                                    </td>
+                                    <td>
+                                        @price VNĐ
+                                    </td>
+                                    <td>
+                                        @item_price VNĐ
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                        <tr>
+                            <td colspan="4" align="right">Tổng tiền</td>
+                            <td>@order VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+</section>
+

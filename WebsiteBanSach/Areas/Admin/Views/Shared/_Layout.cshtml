@@ -1,0 +1,267 @@
+﻿
+@{
+    if (Session["ID"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+    else
+    {
+        if(Session["UserGroup"].ToString()=="Member")
+        {
+            Response.Redirect("/Admin/loi/Er403");
+        }
+    }
+    DateTime ate = DateTime.Now;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/img/fav.png" />
+    <title>BenVo | @Session["Name"]</title>
+    <!-- Bootstrap -->
+    <link href="~/Areas/Admin/Content/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/Areas/Admin/Content/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/Areas/Admin/Content/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/Areas/Admin/Content/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="~/Areas/Admin/Content/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="~/Areas/Admin/Content/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/Areas/Admin/Content/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="~/Areas/Admin/Content/build/css/custom.min.css" rel="stylesheet">
+    <!-- script addition-->
+    <script src="~/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="/Admin/trang-chu" class="site_title"><img src="~/img/fav.png" /> <span>Benvo</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        <div class="profile_pic">
+                            <img src=@Url.Content("~/Areas/Admin/Content/build/images/"+@Session["Avatar"]) alt="..." class="img-circle profile_img">
+                        </div>
+                        <div class="profile_info">
+                            <span>Chào! </span>
+                            <h2>@Session["Name"]</h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Tài khoản</h3>
+                            <ul class="nav side-menu">
+                                <li style="border-style:none; background-color:none">
+                                    <a href="/Admin/trang-chu/nguoi-dung/ho-so-nguoi-dung-@Session["ID"].ToString()"><i class="fa fa-user"></i> Hồ sơ</a>
+                                </li>
+                                @*<li style="border-style:none; background-color:none">
+                                    <a href="Admin/trang-chu/tai-khoan/cai-dat"><i class="fa fa-cog"></i> Cài đặt</a>
+                                </li>*@
+                            </ul>
+                        </div>
+                        <div class="menu_section">
+                            <h3>Danh mục chung</h3>
+                            <ul class="nav side-menu">
+                                <li style="border-style:none; background-color:none">
+                                    <a href="/Admin/trang-chu"><i class="fa fa-home"></i> Trang chủ</a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-book"></i> Danh mục <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="/Admin/trang-chu/danh-muc/sach">Sách</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/the-loai">Thể loại</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/nha-xuat-ban">Nhà xuất bản</a></li>
+                                        <li><a href="/Admin/trang-chu/danh-muc/tac-gia">Tác giả</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-users"></i>Người dùng<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-khach-hang">Danh sách khách hàng</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-quan-tri-vien">Danh sách quản trị viên</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-nguoi-dung-chua-co-nhom">Danh sách người dùng chưa có nhóm</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-nhom-nguoi-dung">Danh sách nhóm người dùng</a></li>
+                                        <li><a href="/Admin/trang-chu/nguoi-dung/danh-sach-cac-quyen">Danh sách các quyền</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-edit"></i>Đơn đặt hàng<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="/Admin/trang-chu/don-dat-hang/danh-sach">Danh sách</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-bar-chart"></i>Thống kê<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="/Admin/trang-chu/thong-ke/doanh-thu">Doanh thu</a></li>
+                                        <li><a href="/Admin/trang-chu/thong-ke/san-pham">Sản phẩm</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        
+                        @*<a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Lock">
+                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                            </a>*@
+                        <a data-toggle="tooltip" data-placement="top" title="Đăng xuất" href="/Admin/trang-chu/dang-xuat">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src=@Url.Content("~/Areas/Admin/Content/build/images/"+@Session["Avatar"]) alt="">@Session["Name"]
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="/Admin/trang-chu/nguoi-dung/ho-so-nguoi-dung-@Session["ID"]"> Hồ sơ cá nhân</a></li>
+                                    @*<li>
+                                        <a href="javascript:;">
+                                            <span>Cài đặt</span>
+                                        </a>
+                                    </li>*@
+                                    <li><a href="/Admin/trang-chu/dang-xuat"><i class="fa fa-sign-out pull-right"></i> Đăng xuất</a></li>
+                                </ul>
+                            </li>
+                            @*<li role="presentation" class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="badge bg-green">6</span>
+                                </a>
+                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="~/Areas/Admin/Content/build/images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="~/Areas/Admin/Content/build/images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="~/Areas/Admin/Content/build/images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><img src="~/Areas/Admin/Content/build/images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                                <span>John Smith</span>
+                                                <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="text-center">
+                                            <a>
+                                                <strong>See All Alerts</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <div>
+                @RenderBody()
+            </div>
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Copyright © @ate.Year by BenVo
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="~/Areas/Admin/Content/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Areas/Admin/Content/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Areas/Admin/Content/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/Areas/Admin/Content/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="~/Areas/Admin/Content/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="~/Areas/Admin/Content/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/Areas/Admin/Content/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Areas/Admin/Content/vendors/iCheck/icheck.min.js"></script>
+    <!-- section scripts -->
+    @RenderSection("scripts", false)
+    <!-- Custom Theme Scripts -->
+    <script src="~/Areas/Admin/Content/build/js/custom.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,99 @@
+﻿@model WebsiteBanSach.Models.Permission
+@{
+    ViewBag.Title = "DeletePerFromGroup";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if(Model.UserGroupID.ToString() == Session["UserGroup"].ToString())
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item">Người dùng</li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/nguoi-dung/danh-sach-nhom-nguoi-dung">Danh sách nhóm người dùng</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/nguoi-dung/chi-tiet-nhom-nguoi-dung-@Model.UserGroupID">Chi tiết nhóm người dùng @Model.UserGroupID</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/nguoi-dung/xoa-quyen-cua-cho-nhom-nguoi-dung-@Model.UserGroupID/@Model.RoleID">Xóa quyền "@Model.Role.ID" của nhóm người dùng @Model.UserGroup.ID</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Xóa quyền @Model.Role.Name của nhóm người dùng @Model.UserGroup.Name</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <h3 class="alert alert-danger">Bạn có chắc là muốn xóa quyền @Model.Role.Name của nhóm @Model.UserGroup.ID (@Model.UserGroup.ID)</h3>
+                        <br />
+                        <div class="x_content">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã nhóm người dùng</th>
+                                        <th>Tên nhóm người dùng</th>
+                                        <th>Mã quyền</th>
+                                        <th>Tên quyền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">@Model.UserGroup.ID</th>
+                                        <td>@Model.UserGroup.Name</td>
+                                        <td>@Model.Role.ID</td>
+                                        <td>@Model.Role.Name</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-default" type="submit" style="background-color:#ff2400; color:white"><i class="fa fa-times"></i>  Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <a href="/Admin/trang-chu/nguoi-dung/danh-sach-nhom-nguoi-dung"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                    <a href="/Admin/trang-chu/nguoi-dung/chi-tiet-nhom-nguoi-dung-@Model.UserGroup.ID"><button class="btn btn-primary pull-left" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về trang chi tiết nhóm @Model.UserGroup.ID</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

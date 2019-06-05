@@ -1,0 +1,442 @@
+﻿@model WebsiteBanSach.Models.Order
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (ViewBag.Permission == null)
+    {
+        Response.Redirect("/Admin/loi/Er403");
+    }
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left" style="font-size:25px">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/danh-sach">Đơn đặt hàng</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/trang-chu/don-dat-hang/chi-tiet-don-dat-hang-@Model.ID">Chi tiết đơn đặt hàng @Model.ID</a></li>
+                    </ol>
+                </nav>
+            </div>
+
+            @*<div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Chi tiết đơn đặt hàng @Model.ID <small></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            @*<li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a href="#">Settings 1</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>*@
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <section class="content invoice">
+                            <!--This section is going to be printed in PDF-->
+                            <div id="PrintPDF">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ID)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ID)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.User.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.User.Name)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CreatedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CreatedDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.DeliveryDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.DeliveryDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.DeliveryStatus)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.DeliveryStatus == true)
+                                        {
+                                            <p>Đã giao</p>
+                                        }
+                                        else
+                                        {
+                                            if (Model.DeliveryStatus == false)
+                                            {
+                                                <p>Đang vận chuyển</p>
+                                            }
+                                            else
+                                            {
+                                                <p>Đang đóng gói</p>
+                                            }
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CheckoutStatus)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.CheckoutStatus == true)
+                                        {
+                                            <p>Đã hoàn thành</p>
+                                        }
+                                        else
+                                        {
+                                            if (Model.CheckoutStatus == false)
+                                            {
+                                                <p>Đã hủy</p>
+                                            }
+                                            else
+                                            {
+                                                <p>Đã xác nhận</p>
+                                            }
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ModifiedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ModifiedDate)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ModifiedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ModifiedBy)
+                                    </dd>
+
+                                </dl>
+                            </div>
+                            @Html.Partial("_PDFOrderPartial")
+                            @*<section class="content invoice">
+                                <!-- title row -->
+                                <div class="row">
+                                    <div class="col-xs-12 invoice-header">
+                                        <h1>
+                                            <i class="fa fa-globe"></i> Karma.
+                                            <small class="pull-right">Ngày: @a</small>
+                                        </h1>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- info row -->
+                                <div class="row invoice-info">
+                                    <div class="col-sm-4 invoice-col">
+                                        Hóa đơn lập bởi
+                                        <address>
+                                            <strong>@name</strong>
+                                            <br>Địa chỉ: 555 Đinh Thanh Hùng, Cao ốc VTX tầng 55, công ty cổ phần Karma
+                                            <br>Số điện thoại: @phone
+                                            <br>Email: @email
+                                        </address>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-4 invoice-col">
+                                        Đơn hàng của
+                                        <address>
+                                            <strong>@Model.User.Name</strong>
+                                            <br>Địa chỉ nhận hàng: @Model.User.Address
+                                            <br>Số điện thoại: @Model.User.Phone
+                                            <br>Email: @Model.User.Email
+                                        </address>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-4 invoice-col">
+                                        <b>Đơn hàng #@Model.ID</b>
+                                        <br>
+                                        <br>
+                                        <b>Ngày lập đơn hàng:</b> @Model.CreatedDate
+                                        <br>
+                                        <b>Ngày cập nhật:</b> @Model.ModifiedDate
+                                        <br>
+                                        <b>Tên tài khoản mua hàng:</b> @Model.UserID
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                                <!-- Table row -->
+                                <div class="row">
+                                    <div class="col-xs-12 table">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Số lượng</th>
+                                                    <th>Tên sản phẩm</th>
+                                                    <th>Mã sản phẩm</th>
+                                                    <th style="width: 59%">Mô tả</th>
+                                                    <th>Tổng tiền sản phẩm</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null)
+                                                {
+                                                    foreach (var item in ViewBag.Detail)
+                                                    {
+                                                        total = item.Number;
+                                                        price = double.Parse(item.Price.ToString());
+                                                        item_price = total * price;
+                                                        order += item_price;
+                                                        string description = item.Book.Description;
+                                                        <tr>
+                                                            <td>
+                                                                @item.Number
+                                                            </td>
+                                                            <td>
+                                                                @item.Book.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.Book.ID
+                                                            </td>
+                                                            <td>
+                                                                @Truncate(description, 12)
+                                                            </td>
+                                                            <td>
+                                                                @item.Price VNĐ
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <!-- accepted payments column -->
+                                    <!-- /.col -->
+                                    <div class="col-xs-12">
+                                        <div class="table-responsive">
+                                            <table id="datatable-buttons" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã đơn đặt hàng</th>
+                                                        <th>Tên sách</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Giá/quyển</th>
+                                                        <th>Giá tổng</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        foreach (var item in ViewBag.Detail)
+                                                        {
+                                                            total = item.Number;
+                                                            price = double.Parse(item.Price.ToString());
+                                                            item_price = total * price;
+                                                            order += item_price;
+                                                            <tr>
+                                                                <td>
+                                                                    @item.OrderID
+                                                                </td>
+                                                                <td>
+                                                                    @item.Book.Name
+                                                                </td>
+                                                                <td>
+                                                                    @item.Number
+                                                                </td>
+                                                                <td>
+                                                                    @item.Price VNĐ
+                                                                </td>
+                                                                <td>
+                                                                    @item_price VNĐ
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+
+                                                    <tr>
+                                                        <td colspan="4" align="right">Tổng tiền</td>
+                                                        <td>@order VNĐ</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                            </section>*@
+
+
+
+                            <!-- this row will not appear when printing -->
+                            <div class="row no-print">
+                                <div class="col-xs-12">
+                                    <button class="btn btn-default" onclick="window.print();" style="background-color:#afb2b7; color:white"><i class="fa fa-print"></i> In</button>
+                                    @*<button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button>*@
+                                    <a href="/Admin/trang-chu/don-dat-hang/danh-sach"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-backward"></i> Trở về</button></a>
+                                    <a href="/Admin/trang-chu/don-dat-hang/xoa-don-dat-hang-@Model.ID"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-times"></i> Xóa</button></a>
+                                    <a href="/Admin/trang-chu/don-dat-hang/sua-don-dat-hang-@Model.ID"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> Sửa</button></a>
+                                    <a href="@Url.Action("DownloadPartialViewPDF","Orders",new { id=Model.ID})"><button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> Tải file pdf</button></a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var num = $('#field1').text();
+            var num2 = $('#field2').text();
+            var num3 = $('#field3').text();
+            num = parseInt(num);
+            num2 = parseInt(num2);
+            num3 = parseInt(num3);
+            num = addPeriod(num);
+            num2 = addPeriod(num2);
+            num3 = addPeriod(num3);
+            $('#field1').text(num + ' VNĐ');
+            $('#field2').text(num2 + ' VNĐ');
+            $('#field3').text(num3)
+        });
+
+        function addPeriod(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
+    </script>
+}
+
+@*<h2>Details</h2>
+
+    <div>
+        <h4>Order</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryStatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryStatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CheckoutStatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CheckoutStatus)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

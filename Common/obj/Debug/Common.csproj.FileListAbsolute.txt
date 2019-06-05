@@ -1,0 +1,12 @@
+D:\DACS\WebsiteBanSach\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+D:\DACS\WebsiteBanSach\Common\bin\Debug\Common.dll
+D:\DACS\WebsiteBanSach\Common\bin\Debug\Common.pdb
+D:\DACS\WebsiteBanSach\Common\obj\Debug\Common.dll
+D:\DACS\WebsiteBanSach\Common\obj\Debug\Common.pdb
+D:\DACS\WebsiteBanSach\Common\obj\Debug\Common.csprojAssemblyReference.cache
+D:\DACS\WebsiteBanSach\Common\bin\Debug\Common.dll.config
+D:\DACS\WebsiteBanSach\Common\bin\Debug\EntityFramework.dll
+D:\DACS\WebsiteBanSach\Common\bin\Debug\EntityFramework.SqlServer.dll
+D:\DACS\WebsiteBanSach\Common\bin\Debug\EntityFramework.xml
+D:\DACS\WebsiteBanSach\Common\bin\Debug\EntityFramework.SqlServer.xml
+D:\DACS\WebsiteBanSach\Common\obj\Debug\Common.csproj.CopyComplete
