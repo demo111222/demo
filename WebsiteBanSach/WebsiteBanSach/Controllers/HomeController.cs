@@ -10,16 +10,117 @@ namespace WebsiteBanSach.Controllers
 {
     public class HomeController : Controller
     {
-        //tao mot doi tuong chua toan bo csdl
         BookStoreDB db = new BookStoreDB();
-        
-        //Trang chủ
         public ActionResult Index()
         {
             return View();
         }
 
-        //Trang giới thiệu
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult Login(FormCollection f)
+        {
+            try
+            {
+                string sTaikhoan = f["txtTaikhoan"].ToString();
+                string sMatkhau = f["txtMatkhau"].ToString();
+                var usr = db.Users.SingleOrDefault(n => n.UserName == sTaikhoan && n.Password == sMatkhau);
+                if (usr != null)
+                {
+                    Session["User"] = usr;
+                    Session["ID"] = usr.ID.ToString();
+                    Session["UserName"] = usr.UserName.ToString();
+                    Session["Name"] = usr.Name.ToString();
+                    Session["Avatar"] = usr.Avatar;
+                    Session["UserGroup"] = usr.UserGroupID;
+                    Session["Phone"] = usr.Phone;
+                    Session["Email"] = usr.Email;
+                    Session["Taikhoan"] = usr;
+                    if (Session["UserGroup"].ToString() == "Admin" || Session["UserGroup"].ToString() == "Mod")
+                    {
+                        return RedirectToAction("Index", "Admin/Home");/* D:\DACS\WebsiteBanSach\WebsiteBanSach\Areas\Admin\Views\Home\Index.cshtml*/
+                    }
+                    else
+                    {
+                        RedirectToAction("Index", "Home/");
+                    }
+                }
+            }
+            catch
+            {
+                ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không chính xác";
+                return View();
+            }
+            return RedirectToAction("Index");
+            //string sTaikhoan = f["txtTaikhoan"].ToString();
+            //string sMatkhau = f["txtMatkhau"].ToString();
+
+            //User user = db.Users.SingleOrDefault(n => n.UserName == sTaikhoan && n.Password == sMatkhau);
+            //if (user != null)
+            //{
+            //    Session["Taikhoan"] = user;
+            //    return RedirectToAction("Index");
+            //    //return Content("<script>window.location.reload();</script>");
+            //}
+
+            //return Content("Tài khoản hoặc mật khẩu không đúng !");
+        }
+
+
+        public ActionResult DangXuat()
+        {
+            Session.Clear();
+            //Session["Taikhoan"] = null;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DangNhap()
+        {
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Dangky1()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Dangky1(User user)
+        {
+            return View();
+        }
+
+        //[HttpGet]
+        //public ActionResult DangKy()
+        //{
+        //    return PartialView();
+        //}
+
+        //[HttpPost]
+        //public ActionResult DangKy(User user)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ViewBag.ThongBao = "Thêm Thành Công";
+        //        db.Users.Add(user);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ThongBao = "Thêm Thất bại";
+        //    }
+
+        //    return View();
+        //}
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -27,25 +128,48 @@ namespace WebsiteBanSach.Controllers
             return View();
         }
 
-        //Trang thông tin liên hệ
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
+        ////tao mot doi tuong chua toan bo csdl
+        //BookStoreDB db = new BookStoreDB();
 
-        //Đăng ký
-        public ActionResult Register()
+        ////Trang chủ
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+
+        ////Trang giới thiệu
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
+
+        //    return View();
+        //}
+
+        ////Trang thông tin liên hệ
+        //public ActionResult Contact()
+        //{
+        //    ViewBag.Message = "Your contact page.";
+
+        //    return View();
+        //}
+
+        ////Đăng ký
+        public ActionResult DangKy()
         {
-            return View();
+            return PartialView();
         }
 
-        [HttpPost,ValidateInput(false)]
-        public ActionResult Register(User user, HttpPostedFileBase fileUpload,string confirmpassword)
+        [HttpPost, ValidateInput(false)]
+        public ActionResult DangKy(User user, HttpPostedFileBase fileUpload, string confirmpassword)
         {
             //Khởi tạo mặc định nhóm người dùng là member
-            if(user.UserGroupID==null)
+            if (user.UserGroupID == null)
             {
                 user.UserGroupID = "Member";
             }
@@ -55,10 +179,10 @@ namespace WebsiteBanSach.Controllers
                 user.Avatar = "user.png";
             }
             //CreateDate ngày tạo tài khoản mặc đinh ngày hiện tại
-            if(user.CreatedDate==null)
+            if (user.CreatedDate == null)
             {
                 user.CreatedDate = DateTime.Now;
-                user.ModifiedDate= DateTime.Now;
+                user.ModifiedDate = DateTime.Now;
             }
             //CreateBy tài khoản tạo bởi mặc đinh là Tên tài khoản của người tạo
             if (user.CreatedBy == null && user.UserGroupID == "Member")
@@ -68,12 +192,12 @@ namespace WebsiteBanSach.Controllers
             }
 
             //Nếu để trống các ô
-            if(user==null)
+            if (user == null)
             {
                 ViewBag.Error = "Không được để trống các ô";
                 return View();
             }
-            if(user.UserName.ToString() == null )
+            if (user.UserName.ToString() == null)
             {
                 ViewBag.Error = "Tên đăng nhập không được để trống";
                 return View();
@@ -86,14 +210,14 @@ namespace WebsiteBanSach.Controllers
 
             //kiểm tra xác nhận mật khẩu
             string st1 = confirmpassword;
-            if(st1==null || user.Password != st1)
+            if (st1 == null || user.Password != st1)
             {
                 ViewBag.Error = "Nhập lại mật khẩu không chính xác";
                 return View();
             }
-            
+
             //Địa chỉ
-            if(user.Address==null)
+            if (user.Address == null)
             {
                 ViewBag.Error = "Địa chỉ dùng để giao hàng xin vui lòng không để trống";
                 return View();
@@ -126,15 +250,15 @@ namespace WebsiteBanSach.Controllers
             if (ModelState.IsValid)
             {
                 //Tên đăng nhập không được tạo trùng nhau
-                var countUserName = db.Users.Where(u=>u.UserName==user.UserName).Count();
-                if(countUserName>=1)
+                var countUserName = db.Users.Where(u => u.UserName == user.UserName).Count();
+                if (countUserName >= 1)
                 {
                     ViewBag.Error = "Tên đăng nhập trên đã được sử dụng vui lòng chọn tên đăng nhập khác";
                     return View();
                 }
 
                 //Avatar
-                if(user.Avatar!= "user.png")
+                if (user.Avatar != "user.png")
                 {
                     //Luu ten file, luu y bo sung thu vien using System.IO; để sử dụng
                     var filename = Path.GetFileName(fileUpload.FileName);
@@ -155,59 +279,63 @@ namespace WebsiteBanSach.Controllers
                 db.Users.Add(user);
                 db.SaveChanges();
             }
+            else
+            {
+                ViewBag.ThongBao = "Thêm Thất bại";
+            }
             //load lại và hiện thông báo
             ModelState.Clear();
             ViewBag.Message = user.Name + " đã đăng ký tài khoản thành công";
-            return View();
+            return PartialView();
         }
         //Đăng ký END
 
-        //Đăng nhập
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Login(User user)
-        {
-            try
-            { 
-                var usr = db.Users.Single(u => u.UserName == user.UserName && u.Password == user.Password);
-                if(usr!=null)
-                {
-                    Session["User"] = usr;
-                    Session["ID"] = usr.ID.ToString();
-                    Session["UserName"] = usr.UserName.ToString();
-                    Session["Name"] = usr.Name.ToString();
-                    Session["Avatar"] = usr.Avatar;
-                    Session["UserGroup"] = usr.UserGroupID;
-                    Session["Phone"] = usr.Phone;
-                    Session["Email"] = usr.Email;
-                    if (Session["UserGroup"].ToString() == "Admin" || Session["UserGroup"].ToString() == "Mod")
-                    {
-                        return RedirectToAction("Index","Admin/Home");/* D:\DACS\WebsiteBanSach\WebsiteBanSach\Areas\Admin\Views\Home\Index.cshtml*/
-                    }
-                    else
-                    {
-                        RedirectToAction("Index","Home/");
-                    }
-                }
-            }
-            catch
-            {
-                ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không chính xác";
-                return View();
-            }
-            return RedirectToAction("Index");
-        }
-        //Đăng nhập END
+        ////Đăng nhập
+        //public ActionResult Login()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult Login(User user)
+        //{
+        //    try
+        //    { 
+        //        var usr = db.Users.Single(u => u.UserName == user.UserName && u.Password == user.Password);
+        //        if(usr!=null)
+        //        {
+        //            Session["User"] = usr;
+        //            Session["ID"] = usr.ID.ToString();
+        //            Session["UserName"] = usr.UserName.ToString();
+        //            Session["Name"] = usr.Name.ToString();
+        //            Session["Avatar"] = usr.Avatar;
+        //            Session["UserGroup"] = usr.UserGroupID;
+        //            Session["Phone"] = usr.Phone;
+        //            Session["Email"] = usr.Email;
+        //            if (Session["UserGroup"].ToString() == "Admin" || Session["UserGroup"].ToString() == "Mod")
+        //            {
+        //                return RedirectToAction("Index","Admin/Home");/* D:\DACS\WebsiteBanSach\WebsiteBanSach\Areas\Admin\Views\Home\Index.cshtml*/
+        //            }
+        //            else
+        //            {
+        //                RedirectToAction("Index","Home/");
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không chính xác";
+        //        return View();
+        //    }
+        //    return RedirectToAction("Index");
+        //}
+        ////Đăng nhập END
 
-        //Đăng xuất
-        public ActionResult LogOut()
-        {
-            Session.Clear();
-            return RedirectToAction("Index","Home/");
-        }
-        //Đăng xuất END
+        ////Đăng xuất
+        //public ActionResult LogOut()
+        //{
+        //    Session.Clear();
+        //    return RedirectToAction("Index","Home/");
+        //}
+        ////Đăng xuất END
     }
 }

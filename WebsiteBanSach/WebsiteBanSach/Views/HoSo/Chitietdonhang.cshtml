@@ -1,0 +1,532 @@
+﻿@model WebsiteBanSach.Models.Order
+@{
+    ViewBag.Title = "Chitietdonhang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+@{
+    if (Session["ID"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+    else
+    {
+        if (Session["UserGroup"].ToString() != "Member")
+        {
+            Response.Redirect("/Admin/loi/Er403");
+        }
+    }
+}
+@section HeaderContent
+{
+    <!-- Css
+        <link href="/Content/Profile/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />s
+        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,300,600%7CRoboto+Slab:400,300,700' rel='stylesheet' type='text/css'>
+
+        -->
+
+    <link href="/Content/Profile/css/base.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/Profile/css/main.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/Profile/css/owl-carousel/owl.carousel.css" rel="stylesheet" media="all">
+    <link href="/Content/Profile/css/owl-carousel/owl.theme.css" rel="stylesheet" media="all">
+    <link href="/Content/Profile/css/magnific-popup.css" type="text/css" rel="stylesheet" media="all" />
+
+    <link href="/Content/Profile/css/fontello.css" rel="stylesheet" type="text/css" media="all">
+}
+    <div id="wrapper" class="mt-150 mb-150">
+
+        <!--Container-->
+        <div class="container">
+
+            <!--Row-->
+            <div class="row ">
+
+                <!--Left content-->
+                <div class="col-md-2 left-content pd-r0">
+
+                    <!--Header-->
+                    <header id="header">
+
+                        <!--Main header-->
+                        <div class="main-header">
+
+                            <!--Profile image-->
+                            <div class="img-profile">
+                                <img src=@Url.Content("~/Areas/Admin/Content/build/images/"+@Session["Avatar"]) alt="" />
+
+                                <div class="name-profile t-center">
+                                    <h5 class="uppercase"></h5>
+                                </div>
+
+                            </div>
+                            <!--End profile image-->
+                            <!--Main navigation-->
+                            <nav id="main-navs" class="main-navs clearfix t-center uppercase tabbed">
+
+                                <ul class="clearfix">
+                                    <li><a href="#about"><i class="icon-monitor"></i>Chi tiết đơn hàng<span>Mã: @Model.ID</span></a></li>
+                                </ul>
+
+                            </nav>
+                            <!--End main navigation-->
+
+                        </div>
+                        <!--End main header-->
+
+                    </header>
+                    <!--End  header-->
+
+
+                </div>
+                <!--End left content-->
+                <!--Right content-->
+                <div class="col-md-9 right-content pd-r0 pd-l0">
+
+                    <!--About Tab-->
+                    <section id="about" class="bg-white t-center">
+
+                        <!--About -->
+                        <div class="about">
+
+
+                            <!--Content-->
+                            <div class="content">
+
+                                <!--Block content-->
+                                <div class="block-content mb-100">
+
+                                    <!--Row-->
+                                    <div class="row">
+
+                                        <div class="col-md-12  ">
+
+                                            <div class="main-title profile">
+                                                <h1 class="mb-20">Đơn hàng</h1>
+                                                <h3>Mã: @Model.ID</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End row-->
+
+                                </div>
+                                <!--End block content-->
+                                <!--Block content-->
+                                <div class="block-content mb-100">
+
+                                    <!--Row-->
+                                    <div id="PrintPDF">
+                                        <dl class="dl-horizontal">
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.ID)
+                                            </dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => model.ID)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.User.Name)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.User.Name)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.CreatedDate)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.CreatedDate)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.DeliveryDate)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.DeliveryDate)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.DeliveryStatus)
+                                            </dt>
+
+                                            <dd>
+                                                @if (Model.DeliveryStatus == true)
+                                                {
+                                                    <p>Đã giao</p>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.DeliveryStatus == false)
+                                                    {
+                                                        <p>Đang vận chuyển</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>Đang đóng gói</p>
+                                                    }
+                                                }
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.CheckoutStatus)
+                                            </dt>
+
+                                            <dd>
+                                                @if (Model.CheckoutStatus == true)
+                                                {
+                                                    <p>Đã hoàn thành</p>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.CheckoutStatus == false)
+                                                    {
+                                                        <p>Đã hủy</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>Đã xác nhận</p>
+                                                    }
+                                                }
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.ModifiedDate)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.ModifiedDate)
+                                            </dd>
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.ModifiedBy)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.ModifiedBy)
+                                            </dd>
+
+                                        </dl>
+                                    </div>
+                                    @{
+                                        double total = 0;
+                                        double price = 0;
+                                        double item_price = 0;
+                                        double order = 0;
+                                        DateTime a = DateTime.Now;
+
+                                        string email = Session["Email"].ToString();
+                                        string phone = Session["Phone"].ToString();
+                                        string name = Session["Name"].ToString();
+
+
+                                    }
+
+                                    @helper Truncate(string input, int length)
+                                    {
+                                        if (input.Length < length)
+                                        {
+                                            @Html.Raw(input)
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw(input.Substring(0, length))<text >...</text>
+                                        }
+                                    }
+
+                                    <section class="content invoice">
+                                        <!-- title row -->
+                                        <!-- info row -->
+                                        <div class="row invoice-info">
+                                            <div class="col-sm-4 invoice-col">
+                                                <p>
+                                                    Hóa đơn lập bởi
+                                                    <address>
+                                                        <strong>@name</strong>
+                                                        <br>Địa chỉ: 555 Đinh Thanh Hùng, Cao ốc VTX tầng 55, công ty cổ phần Karma
+                                                        <br>Số điện thoại: @phone
+                                                        <br>Email: @email
+                                                    </address>
+                                                </p>
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-sm-4 invoice-col">
+                                                Đơn hàng của
+                                                <address>
+                                                    <strong>@Model.User.Name</strong>
+                                                    <br>Địa chỉ nhận hàng: @Model.User.Address
+                                                    <br>Số điện thoại: @Model.User.Phone
+                                                    <br>Email: @Model.User.Email
+                                                </address>
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-sm-4 invoice-col">
+                                                <b>Đơn hàng #@Model.ID</b>
+                                                <br>
+                                                <br>
+                                                <b>Ngày lập đơn hàng:</b> @Model.CreatedDate
+                                                <br>
+                                                <b>Ngày cập nhật:</b> @Model.ModifiedDate
+                                                <br>
+                                                <b>Tên tài khoản mua hàng:</b> @Model.UserID
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                        <br />
+                                        <!-- /.row -->
+                                        <!-- Table row -->
+                                        <div class="row">
+                                            <div class="col-xs-12 table">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Số lượng&nbsp;&nbsp;</th>
+                                                            <th>Tên sản phẩm&nbsp;&nbsp;</th>
+                                                            <th>Mã sản phẩm&nbsp;&nbsp;</th>
+                                                            <th style="width: 25%">Mô tả&nbsp;&nbsp;</th>
+                                                            <th>Tổng tiền sản phẩm</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null)
+                                                        {
+                                                            foreach (var item in ViewBag.Detail)
+                                                            {
+                                                                total = item.Number;
+                                                                price = double.Parse(item.Price.ToString());
+                                                                item_price = total * price;
+                                                                order += item_price;
+                                                                string description = item.Book.Description;
+                                                                <tr>
+                                                                    <td>
+                                                                        @item.Number
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Book.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Book.ID
+                                                                    </td>
+                                                                    <td>
+                                                                        @Truncate(description, 12)
+                                                                    </td>
+                                                                    <td>
+                                                                        @price VNĐ
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                        <!-- /.row -->
+                                        <br />
+                                        <div class="row">
+                                            <!-- accepted payments column -->
+                                            <!-- /.col -->
+                                            <div class="col-xs-12">
+                                                <div class="table-responsive">
+                                                    <table id="datatable-buttons" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Mã đơn đặt hàng&nbsp;&nbsp;</th>
+                                                                <th>Tên sách&nbsp;&nbsp;</th>
+                                                                <th>Số lượng&nbsp;&nbsp;</th>
+                                                                <th>Giá/quyển&nbsp;&nbsp;</th>
+                                                                <th>Giá tổng</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @if (Model != null)
+                                                            {
+                                                                foreach (var item in ViewBag.Detail)
+                                                                {
+                                                                    total = item.Number;
+                                                                    price = double.Parse(item.Price.ToString());
+                                                                    item_price = total * price;
+                                                                    order += item_price;
+                                                                    <tr>
+                                                                        <td>
+                                                                            @item.OrderID
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.Book.Name
+                                                                        </td>
+                                                                        <td>
+                                                                            @item.Number
+                                                                        </td>
+                                                                        <td>
+                                                                            @price VNĐ
+                                                                        </td>
+                                                                        <td>
+                                                                            @item_price VNĐ
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+
+                                                            <tr>
+                                                                <td colspan="4" align="right">Tổng tiền</td>
+                                                                <td>@order VNĐ</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!-- /.col style="background-color:#ff2400; color:white; margin-top:12px;font-size: 25px;padding-left: 10px;padding-right: 10px;" -->
+                                        </div>
+                                        <!-- /.row -->
+                                        <div class="row no-print">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <a class="btn btn-default" style="background-color:#ff2400; color:white; margin-top:12px;font-size: 25px;padding-left: 10px;padding-right: 10px;" href="@Url.Action("HoSo", "HoSo", new { id = int.Parse(Session["ID"].ToString()) })"><i class="fa fa-edit"></i>Trở về</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <!--End row-->
+
+                                </div>
+                                <!--End block content-->
+                                <!--Block content-->
+                                @*<!--End block content-->
+                                <!--Block content-->
+                                <div class="block-content mb-100  pb-30">
+
+                                    <!--Row-->
+                                    <div class="row">
+
+                                        <div class="col-md-12  ">
+
+                                            <div class="sub-title mb-40">
+                                                <h2 class="uppercase">Contact Info</h2>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--End row-->
+                                    <!--Row-->
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-3  col-sm-8 col-sm-offset-3 ">
+
+                                            <!--Listing-->
+                                            <div class="listing mt-40">
+
+                                                <a class="uppercase emph-1 btn-1" href="#">Download my cv</a>
+                                                <a class="uppercase emph-1 btn-2" href="#">Print My resume</a>
+
+                                                <div class="listing-inner">
+                                                    <div class="listing-event">
+                                                        <ul class="data left">
+                                                            <li>
+                                                                <span class="emph-1">Adress</span> :<br>
+                                                                Carlose Smith
+                                                                1234 Street Road, Chicago, IN 567 890 United States
+                                                            </li>
+                                                        </ul>
+
+                                                        <ul class="data right">
+                                                            <li><span class="emph-1">E-Mail</span> : carlossmith@gmail.com</li>
+                                                            <li><span class="emph-1">Website</span> : www.carlosesmith.com</li>
+                                                            <li><span class="emph-1">Phone</span> : + 123 456 789 456 </li>
+                                                            <li><span class="emph-1">Skype</span> : Carlose_Smith</li>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--End listing-->
+
+                                        </div>
+
+                                    </div>
+                                    <!--End row-->
+
+                                </div>
+                                <!--End block content-->
+                                <!--Block content-->
+                                <div class="block-content mb-100">
+
+                                    <!--Row-->
+                                    <div class="row">
+
+                                        <div class="col-md-12  ">
+
+                                            <div class="sub-title mb-40">
+                                                <h2 class="uppercase">Instagram</h2>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--End row-->
+                                    <!--Row-->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="insta-Feed" id="instafeed"></ul>
+                                        </div>
+
+                                    </div>
+                                    <!--End row-->
+                                </div>
+                                <!--End block content-->*@
+                                <!--Block content-->
+                                <div class="block-content">
+
+                                    <!--Row-->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="page-number emph-1">- 1/1 -</span>
+                                        </div>
+
+                                    </div>
+                                    <!--End row-->
+                                </div>
+                                <!--End block content-->
+
+
+                            </div>
+                            <!--End content-->
+
+                        </div>
+                        <!--End about-->
+
+                    </section>
+                    <!--End about tab-->
+                </div>
+                <!--End right content-->
+                <!--Footer-->
+                @*<footer class="footer ">
+
+                    <div class="col-md-1 pd-l0">
+
+                        <!--Social-->
+                        <ul class="social">
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-gplus"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                        </ul>
+                        <!--End social-->
+                        <!--Copyright-->
+                        <div class="copyright">
+                            <p>© 2016 Mutationthemes.</p>
+                        </div>
+                        <!--End copyright-->
+
+                    </div>
+
+                </footer>*@
+                <!--End footer-->
+
+
+            </div>
+            <!--End row-->
+
+
+        </div>
+    </div>
+

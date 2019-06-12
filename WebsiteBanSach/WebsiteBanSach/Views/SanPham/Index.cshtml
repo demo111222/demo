@@ -1,0 +1,50 @@
+﻿@using WebsiteBanSach.Models;
+@using PagedList.Mvc;
+
+@model PagedList.IPagedList<WebsiteBanSach.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@{
+    
+}
+
+<!-- breadcrumbs -->
+<div class="crumbs text-center" style="background:white;">
+    <div class="container">
+        <div class="row">
+            <ul class="btn-group btn-breadcrumb bc-list">
+                <li class="btn btn1"  >
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </a>
+                </li>
+                <li class="btn btn2">
+                    <a href="@Url.Action("Index","SanPham")">Danh Mục Sản Phẩm</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>
+<!--//breadcrumbs ends here-->
+<div class="innerf-pages section">
+    <div class="container-cart">
+        @Html.Partial("~/Views/SanPham/SanPham.cshtml")
+        <br />
+        <div class="dlink" style="margin-left: 710px">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+            <div class="agile-buttons-grids">
+                @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page }))
+            </div>
+        </div>
+        
+    </div>
+</div>
+@*<div class="dlink">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page, @CategoryID = ViewBag.CategoryID }))
+</div>*@

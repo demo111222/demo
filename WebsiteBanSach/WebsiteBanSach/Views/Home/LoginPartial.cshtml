@@ -1,0 +1,20 @@
+﻿@using WebsiteBanSach.Models
+@model User
+
+@{
+    if (Session["Taikhoan"] != null && Session["TaiKhoan"] != "")
+    {
+        User user = (User)Session["TaiKhoan"];
+        <li style="color:white">@user.Name</li>
+        <li>@Html.ActionLink("Đăng Xuất", "DangXuat", "Home")</li>
+    }
+    else
+    {
+        <li>
+            <a href="@Url.Action("DangKy","Home")">Đăng Ký</a>
+        </li>
+        <li>
+            <a href="@Url.Action("DangNhap","Home")">Đăng Nhập</a>
+        </li>
+    }
+}

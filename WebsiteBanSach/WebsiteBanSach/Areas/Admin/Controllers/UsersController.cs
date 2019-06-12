@@ -347,7 +347,8 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
                             //LUU DUONG DAN CUA FILE
                             var path1 = Path.Combine(Server.MapPath("~/Areas/Admin/Content/build/images/"), filename);
                             var path2 = Path.Combine(Server.MapPath("~/img/"), filename);
-                            if (System.IO.File.Exists(path1) || System.IO.File.Exists(path2))
+                            var path3 = Path.Combine(Server.MapPath("~/Content/HinhAnh/"), filename);
+                            if (System.IO.File.Exists(path1) || System.IO.File.Exists(path2) || System.IO.File.Exists(path3))
                             {
                                 ViewBag.Error = "Hình ảnh đã tồn tại";
                                 return View();
@@ -357,6 +358,7 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
                                 //LUU HINH ANH VAO DUONG DAN
                                 fileUpload.SaveAs(path1);
                                 fileUpload.SaveAs(path2);
+                                fileUpload.SaveAs(path3);
                             }
                             u.Avatar = filename;
                             if (u.ModifiedBy != null)

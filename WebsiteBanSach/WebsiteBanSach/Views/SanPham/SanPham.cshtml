@@ -1,0 +1,257 @@
+﻿
+<!-- product left -->
+<div class="side-bar col-md-3">
+    <!--preference -->
+    <div class="left-side">
+        <h3 class="shopf-sear-headits-sear-head">
+            Thể loại
+        </h3>
+        <ul>
+            @foreach (var item in ViewBag.Categories)
+            {
+                <li>
+                    <!-- chuyen tới trang sảng phẩm thuộc  thể loại item actionres-->
+                    <a href="@Url.Action("BookFromOneCate", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="left-side">
+        <h3 class="shopf-sear-headits-sear-head">
+            Tác giả
+        </h3>
+        <ul>
+            @foreach (var item in ViewBag.Authors)
+            {
+                <li>
+                    <!-- chuyen tới trang sảng phẩm thuộc  tác giả item actionres-->
+                    <a href="@Url.Action("BookFromOneAu", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="left-side">
+        <h3 class="shopf-sear-headits-sear-head">
+            Nhà xuất bản
+        </h3>
+        <ul>
+            @foreach (var item in ViewBag.Publishers)
+            {
+                <li>
+                    <!-- chuyen tới trang sảng phẩm thuộc  nhà xuất bản item làm cái actionres-->
+                    <a href="@Url.Action("BookFromOnePub", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- // preference -->
+    <div class="search-hotel">
+        @using (Html.BeginForm("KQTimKiem", "TimKiem"))
+        {
+
+            <h3 class="shopf-sear-headits-sear-head">
+                <span>Tìm kiếm</span>
+            </h3>
+            <form action="#" method="post">
+                <input type="search" placeholder="điền thông tin..." name="sTuKhoa" required="">
+                <input type="submit" value="Tìm kiếm">
+            </form>
+
+        }
+    </div>
+    <!-- price range -->
+    <!-- //price range -->
+    <!--preference -->
+    @*<div class="left-side">
+            <h3 class="shopf-sear-headits-sear-head">
+                <span>latest</span> arrivals
+            </h3>
+            <ul>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 30 days</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 90 days</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 150 days</span>
+                </li>
+
+            </ul>
+        </div>*@
+    <!-- // preference -->
+    <!-- discounts -->
+    <!-- //discounts -->
+    <!-- Binding -->
+    <!-- //Binding -->
+    <!-- discounts -->
+    <!-- //discounts -->
+    <!-- reviews -->
+    @*<div class="customer-rev left-side">
+            <h3 class="shopf-sear-headits-sear-head">Customer Review</h3>
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <span>5.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>4.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.5</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>2.5</span>
+                    </a>
+                </li>
+            </ul>
+        </div>*@
+    <!-- //reviews -->
+
+
+</div>
+<!-- //product left -->
+<!-- product right -->
+<div class="left-ads-display col-md-9">
+    <div class="wrapper_top_shop">
+        <!-- product-sec1 -->
+        <div class="product-sec1">
+            <!-- row1-->
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 product-men">
+                    <div class="product-chr-info chr">
+                        <div class="thumbnail">
+                            <a href="@Url.Action("CTSP","SanPham", new { id = item.ID})">
+                                <img src="@Url.Content("~/Content/HinhAnh/"+item.Image) " alt="" style="width: 100%;height:300px">
+                            </a>
+                        </div>
+                        <div class="caption" style="min-height:100px">
+                            <h4>@item.Name</h4>
+                            @if(@ViewBag.Authors!=null)
+                            {
+                                foreach(var tacgia in @ViewBag.Authors)
+                                {
+                                    if(tacgia.ID==item.AuthorID)
+                                    {
+                                        <p>Tác giả: @tacgia.Name</p>
+                                    }
+                                }
+                            }
+                            <div class="matrlf-mid">
+                                <ul class="rating">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="amount">
+                                    @if(@item.Quantity.ToString() != null)
+                                    {
+                                        var t = item.Quantity.ToString("N0");
+                                        <li>Số Lượng: @t</li>
+                                    }
+                                </ul>
+                                <ul class="price-list">
+                                    @if (@item.PromotionPrice.ToString() != null || @item.Price.ToString() != null)
+                                    {
+                                        var t = item.PromotionPrice.ToString("N0");
+                                        var t1 = item.Price.ToString("N0");
+                                        <li>Giá KM:@t VNĐ</li>
+                                        <li>
+                                            Giá: @t1 VNĐ
+                                        </li>
+                                    }
+                                </ul>
+
+                                <div class="clearfix"> </div>
+                            </div>
+                            <form action="#" method="post">
+                                @*<input type="hidden" name="cmd" value="_cart">
+                                    <input type="hidden" name="add" value="1">
+                                    <input type="hidden" name="chr_item" value="@item.Tensach">
+                                    <input type="hidden" name="amount" value="@item.GiaThue.Value.ToString("#,##") VNĐ">*@
+
+                                @*<button type="button" onclick="location.href='@Url.Action("ThemGioHang","GioHang", new { @Masach = item.Masach , @strURL =  Request.Url.ToString() })"class="item-add"><p class="number item_price"><i></i>@item.GiaThue.Value.ToString("#,##")</p>Thêm Vào Giỏ</button>*@
+                                <a href="@Url.Action("ThemGioHang","GioHang", new { @Masach = item.ID , @strURL =  Request.Url.ToString() })" type="button" class="item-add"><p class="number item_price"><i class="btn btn-danger"><i class="fa fa-cart-plus" aria-hidden="true"></i> Thêm Vào Giỏ </i></p></a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        <!-- //product-sec1 -->
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+
+
+
