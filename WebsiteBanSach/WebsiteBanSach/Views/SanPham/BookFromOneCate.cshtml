@@ -1,0 +1,437 @@
+﻿@using WebsiteBanSach.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<WebsiteBanSach.Models.Book>
+
+@{
+    ViewBag.Title = "BookFromOneCate";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@{ 
+    string theloai = "";
+    int matheloai=0;
+    foreach(var item in Model)
+    {
+        foreach(var it in ViewBag.Categories)
+        {
+            if (item.AuthorID == it.ID)
+            {
+                theloai = it.Name;
+                matheloai = it.ID;
+            }
+        }
+    }
+}
+
+<!-- breadcrumbs -->
+<div class="crumbs text-center" style="background:white;">
+    <div class="container">
+        <div class="row">
+            <ul class="btn-group btn-breadcrumb bc-list">
+                <li class="btn btn1">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </a>
+                </li>
+                <li class="btn btn2">
+                    <a href="@Url.Action("Index","SanPham")">Danh Mục Sản Phẩm</a>
+                </li>
+                <li class="btn btn3">
+                    <a href="@Url.Action("BookFromOneCate","SanPham",new { id=matheloai})">Danh Mục Sản Phẩm thuộc thể loại @theloai</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>
+<!--//breadcrumbs ends here-->
+<div class="innerf-pages section">
+    <div class="container-cart">
+
+        <!-- product left -->
+        <div class="side-bar col-md-3">
+            <!--preference -->
+            <div class="left-side">
+                <h3 class="shopf-sear-headits-sear-head">
+                    Thể loại
+                </h3>
+                <ul>
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        <li>
+                            <!-- chuyen tới trang sảng phẩm thuộc  thể loại item actionres-->
+                            <a href="@Url.Action("BookFromOneCate", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="left-side">
+                <h3 class="shopf-sear-headits-sear-head">
+                    Tác giả
+                </h3>
+                <ul>
+                    @foreach (var item in ViewBag.Authors)
+                    {
+                        <li>
+                            <!-- chuyen tới trang sảng phẩm thuộc  tác giả item actionres-->
+                            <a href="@Url.Action("BookFromOneAu", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="left-side">
+                <h3 class="shopf-sear-headits-sear-head">
+                    Nhà xuất bản
+                </h3>
+                <ul>
+                    @foreach (var item in ViewBag.Publishers)
+                    {
+                        <li>
+                            <!-- chuyen tới trang sảng phẩm thuộc  nhà xuất bản item làm cái actionres-->
+                            <a href="@Url.Action("BookFromOnePub", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <!-- // preference -->
+            <div class="search-hotel">
+                @using (Html.BeginForm("KQTimKiem", "TimKiem"))
+                {
+
+                    <h3 class="shopf-sear-headits-sear-head">
+                        <span>Tìm kiếm</span>
+                    </h3>
+                    <form action="#" method="post">
+                        <input type="search" placeholder="điền thông tin..." name="sTuKhoa" required="">
+                        <input type="submit" value="Tìm kiếm">
+                    </form>
+
+                }
+            </div>
+            <!-- price range -->
+            <!-- //price range -->
+            <!--preference -->
+            @*<div class="left-side">
+            <h3 class="shopf-sear-headits-sear-head">
+                <span>latest</span> arrivals
+            </h3>
+            <ul>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 30 days</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 90 days</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 150 days</span>
+                </li>
+
+            </ul>
+        </div>*@
+            <!-- // preference -->
+            <!-- discounts -->
+            <!-- //discounts -->
+            <!-- Binding -->
+            <!-- //Binding -->
+            <!-- discounts -->
+            <!-- //discounts -->
+            <!-- reviews -->
+            @*<div class="customer-rev left-side">
+            <h3 class="shopf-sear-headits-sear-head">Customer Review</h3>
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <span>5.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>4.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.5</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>2.5</span>
+                    </a>
+                </li>
+            </ul>
+        </div>*@
+            <!-- //reviews -->
+
+
+        </div>
+        <!-- //product left -->
+        <!-- product right -->
+        <div class="left-ads-display col-md-9">
+            <div class="wrapper_top_shop">
+                <!-- product-sec1 -->
+                <div class="product-sec1">
+                    <!-- row1-->
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 product-men">
+                            <div class="product-chr-info chr">
+                                <div class="thumbnail">
+                                    <a href="@Url.Action("CTSP","SanPham", new { id = item.ID})">
+                                        <img src="@Url.Content("~/Content/HinhAnh/"+item.Image) " alt="" style="width: 100%;height:300px">
+                                    </a>
+                                </div>
+                                <div class="caption" style="min-height:100px">
+                                    <h4>@item.Name</h4>
+                                    @if (@ViewBag.Authors != null)
+                                    {
+                                        foreach (var tacgia in @ViewBag.Authors)
+                                        {
+                                            if (tacgia.ID == item.AuthorID)
+                                            {
+                                                <p>Tác giả: @tacgia.Name</p>
+                                            }
+                                        }
+                                    }
+                                    <div class="matrlf-mid">
+                                        <ul class="rating">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="amount">
+                                            @if (@item.Quantity.ToString() != null)
+                                            {
+                                                var t = item.Quantity.ToString("N0");
+                                                <li>Số Lượng: @t</li>
+                                            }
+                                        </ul>
+                                        <ul class="price-list">
+                                            @if (@item.PromotionPrice.ToString() != null || @item.Price.ToString() != null)
+                                            {
+                                                var t = item.PromotionPrice.ToString("N0");
+                                                var t1 = item.Price.ToString("N0");
+                                                <li>Giá KM:@t VNĐ</li>
+                                                <li>
+                                                    Giá: @t1 VNĐ
+                                                </li>
+                                            }
+                                        </ul>
+
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                    <form action="#" method="post">
+                                        @*<input type="hidden" name="cmd" value="_cart">
+                                        <input type="hidden" name="add" value="1">
+                                        <input type="hidden" name="chr_item" value="@item.Tensach">
+                                        <input type="hidden" name="amount" value="@item.GiaThue.Value.ToString("#,##") VNĐ">*@
+
+                                        @*<button type="button" onclick="location.href='@Url.Action("ThemGioHang","GioHang", new { @Masach = item.Masach , @strURL =  Request.Url.ToString() })"class="item-add"><p class="number item_price"><i></i>@item.GiaThue.Value.ToString("#,##")</p>Thêm Vào Giỏ</button>*@
+                                        <a href="@Url.Action("ThemGioHang","GioHang", new { @Masach = item.ID , @strURL =  Request.Url.ToString() })" type="button" class="item-add"><p class="number item_price"><i class="btn btn-danger"><i class="fa fa-cart-plus" aria-hidden="true"></i> Thêm Vào Giỏ </i></p></a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+                <!-- //product-sec1 -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        //số trang
+        <br />
+        <div class="dlink" style="margin-left: 710px">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+            <div class="agile-buttons-grids">
+                @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page }))
+            </div>
+        </div>
+
+    </div>
+</div>
+@*<div class="dlink">
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page, @CategoryID = ViewBag.CategoryID }))
+    </div>*@
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publisher.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MetaTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PromotionPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Detail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ViewCount)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MetaTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromotionPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ViewCount)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>*@

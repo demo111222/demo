@@ -22,6 +22,7 @@ namespace WebsiteBanSach
         }
         protected void Session_Start()
         {
+            Session["Taikhoan"] = null;
             Session["ID"] = null;
             Session["UserName"] = null;
             Session["UserGroup"] = null;

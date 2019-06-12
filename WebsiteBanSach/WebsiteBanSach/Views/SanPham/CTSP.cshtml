@@ -1,0 +1,147 @@
+﻿@model WebsiteBanSach.Models.Book
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @Html.Raw(input)
+    }
+    else
+    {
+        @Html.Raw(input.Substring(0, length))<text >...</text>
+    }
+}
+
+<div class="crumbs text-center" style="background:white;">
+    <div class="container">
+        <div class="row">
+            <ul class="btn-group btn-breadcrumb bc-list">
+                <li class="btn btn1">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </a>
+                </li>
+                <li class="btn btn2">
+                    <a href="@Url.Action("Index","SanPham")">Danh Mục Sản Phẩm</a>
+                </li>
+                <li class="btn btn3">
+                    <a href="@Url.Action("CTSP","SanPham")">Chi Tiết Sản Phẩm @Model.Name</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>
+
+<div class="innerf-pages section">
+    <div class="container">
+        <div class="col-md-4 single-right-left ">
+            <div class="grid images_3_of_2">
+                <div class="flexslider1">
+                    <ul class="slides">
+                        <li data-thumb="@Url.Content("~/Content/HinhAnh/"+Model.Image)">
+                            <div class="thumb-image">
+                                <img src="@Url.Content("~/Content/HinhAnh/"+Model.Image)" data-imagezoom="true" alt=" " class="img-responsive">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8 single-right-left simpleCart_shelfItem">
+            <h3>
+                Tên Sách: @Model.Name
+                <span>Ngày đăng: @Model.CreatedDate.ToString().</span>
+            </h3>
+            <p><a href="@Url.Action("BookFromOneAu", "SanPham", new { id = Model.AuthorID })">Tác Giả: @Model.Author.Name</a></p>
+            <p><a href="@Url.Action("BookFromOnePub", "SanPham", new { id = Model.PublisherID })">Nhà xuất bản: @Model.Publisher.Name</a></p>
+            <p><a href="@Url.Action("BookFromOneCate", "SanPham", new { id = Model.CategoryID })">Thể loại: @Model.Category.Name</a></p>
+            <div class="caption">
+
+                <ul class="rating-single">
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="clearfix"> </div>
+                <ul class="amount">
+                    <li>Số Lượng: @Model.Quantity.ToString("#,##")</li>
+                </ul>
+                <ul class="price-list">
+                    <li>Giá KM:@Model.PromotionPrice.ToString("#,##") VNĐ</li>
+                </ul>
+            </div>
+
+            <div class="desc_single">
+                <h5>Mô Tả:</h5>
+                <p>
+                    @Truncate(@Model.Description, 30)
+                </p>
+            </div>
+            <div class="desc_single">
+                <h5>Kích thước:</h5>
+                <p>
+                    @Truncate(@Model.Detail, 30)
+                </p>
+            </div>
+
+
+            <div class="clearfix"></div>
+            @*<div class="description">
+            <h5>Check delivery, payment options and charges at your location</h5>
+            <form action="#" method="post">
+                <input type="text" value="Enter pincode" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter pincode';}"
+                       required="">
+                <input type="submit" value="Check">
+            </form>
+        </div>*@
+            <div class="occasion-cart">
+                <div class="chr single-item single_page_b">
+                    <form action="#" method="post">
+                        @*<input type="hidden" name="cmd" value="_cart">
+                    <input type="hidden" name="add" value="1">
+                    <input type="hidden" name="chr_item" value="@item.Tensach">
+                    <input type="hidden" name="amount" value="@item.GiaThue.Value.ToString("#,##") VNĐ">*@
+
+                        @*<button type="button" onclick="location.href='@Url.Action("ThemGioHang","GioHang", new { @Masach = item.Masach , @strURL =  Request.Url.ToString() })"class="item-add"><p class="number item_price"><i></i>@item.GiaThue.Value.ToString("#,##")</p>Thêm Vào Giỏ</button>*@
+                        <a href="@Url.Action("ThemGioHang","GioHang", new { @Masach = Model.ID , @strURL =  Request.Url.ToString() })" type="button" class="item-add"><p class="number item_price"><i class="btn btn-danger"><i class="fa fa-cart-plus" aria-hidden="true"></i> Thêm Vào Giỏ </i></p></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <br />
+</div>
+@Html.Action("LaySPCungLoai", "SanPham", new { maloai = Model.CategoryID });
+
+

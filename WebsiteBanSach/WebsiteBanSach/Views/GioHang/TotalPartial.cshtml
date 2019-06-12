@@ -1,0 +1,24 @@
+﻿
+@using WebsiteBanSach.Models;
+@model IEnumerable<ItemGioHang>
+@{
+}
+<div class="cart-mainf">
+    @*<form method="post" class="" action="@Url.Action("XemGioHang","GioHang")" target="">
+            <p>
+                <button class="top_chr_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+                <span>Giỏ hàng của bạn</span>
+            </p>
+        </form>*@
+    <div class="cart-dropdown">
+        <div class="cart-summary">
+            <li>Tổng Số Lượng Sản Phẩm: <span>@ViewBag.TongSoLuong</span></li>
+            <li>Tổng tiền: <span>@ViewBag.TongTien VND</span> </li>
+
+        </div>
+        @*<div class="cart-btns">
+                <a href="@Url.Action("XemGioHang","GioHang")"><i class="btn btn-primary">Xem Giỏ Hàng</i></a>
+                <a href="@Url.Action("ThanhToan","GioHang")"><p class="btn btn-primary"> <i class="fa fa-arrow-circle-right">Thanh Toán </i></p></a>
+            </div>*@
+    </div>
+</div>

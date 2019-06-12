@@ -1,0 +1,437 @@
+﻿@using WebsiteBanSach.Models;
+@using PagedList.Mvc;
+
+@model PagedList.IPagedList<WebsiteBanSach.Models.Book>
+@{
+    ViewBag.Title = "KQTimKiem";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+<div class="crumbs text-center">
+    <div class="container">
+        <div class="row">
+            <ul class="btn-group btn-breadcrumb bc-list">
+                <li class="btn btn1">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </a>
+                </li>
+                <li class="btn btn2">
+                    <a href="@Url.Action("KQTImKiem","TimKiem")">Tìm kiếm</a>
+                </li>
+            </ul>
+        </div>
+        <br />
+    </div>
+</div>
+
+<div class="innerf-pages section">
+    <div class="container-cart">
+
+
+        <div class="side-bar col-md-3">
+            <!--preference -->
+            <div class="left-side">
+                <h3 class="shopf-sear-headits-sear-head">
+                    Thể loại
+                </h3>
+                <ul>
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        <li>
+                            <!-- chuyen tới trang sảng phẩm thuộc  thể loại item actionres-->
+                            <a href="@Url.Action("BookFromOneCate", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="left-side">
+                <h3 class="shopf-sear-headits-sear-head">
+                    Tác giả
+                </h3>
+                <ul>
+                    @foreach (var item in ViewBag.Authors)
+                    {
+                        <li>
+                            <!-- chuyen tới trang sảng phẩm thuộc  tác giả item actionres-->
+                            <a href="@Url.Action("BookFromOneAu", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="left-side">
+                <h3 class="shopf-sear-headits-sear-head">
+                    Nhà xuất bản
+                </h3>
+                <ul>
+                    @foreach (var item in ViewBag.Publishers)
+                    {
+                        <li>
+                            <!-- chuyen tới trang sảng phẩm thuộc  nhà xuất bản item làm cái actionres-->
+                            <a href="@Url.Action("BookFromOnePub", "SanPham", new { id = @item.ID })"><span class="span">@item.Name</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <!-- // preference -->
+            <div class="search-hotel">
+                @using (Html.BeginForm("KQTimKiem", "TimKiem"))
+                {
+
+                    <h3 class="shopf-sear-headits-sear-head">
+                        <span>Tìm kiếm</span>
+                    </h3>
+                    <form action="#" method="post">
+                        <input type="search" placeholder="điền thông tin..." name="sTuKhoa" required="">
+                        <input type="submit" value="Tìm kiếm">
+                    </form>
+
+                }
+            </div>
+            <!-- price range -->
+            <!-- //price range -->
+            <!--preference -->
+            @*<div class="left-side">
+            <h3 class="shopf-sear-headits-sear-head">
+                <span>latest</span> arrivals
+            </h3>
+            <ul>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 30 days</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 90 days</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="checked">
+                    <span class="span">last 150 days</span>
+                </li>
+
+            </ul>
+        </div>*@
+            <!-- // preference -->
+            <!-- discounts -->
+            <!-- //discounts -->
+            <!-- Binding -->
+            <!-- //Binding -->
+            <!-- discounts -->
+            <!-- //discounts -->
+            <!-- reviews -->
+            @*<div class="customer-rev left-side">
+            <h3 class="shopf-sear-headits-sear-head">Customer Review</h3>
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <span>5.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>4.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.5</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>2.5</span>
+                    </a>
+                </li>
+            </ul>
+        </div>*@
+            <!-- //reviews -->
+
+
+        </div>
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+
+                    <!-- ASIDE <div id="store" class="col-md-9"> -->
+
+                    <div class="left-ads-display col-md-9">
+                        <div class="wrapper_top_shop">
+                            <div class="product-sec1">
+                                @foreach (var item in Model)
+                                {
+
+                                    int dem = 1;
+                                    <div class="col-md-4 product-men">
+                                        <div class="product-chr-info chr">
+                                            <div class="thumbnail">
+                                                <a href="@Url.Action("CTSP", "SanPham", new { id = item.ID })">
+                                                    <img src="@Url.Content("~/Content/HinhAnh/" + item.Image) " alt="" style="width: 100%;height:300px">
+                                                </a>
+                                            </div>
+                                            <div class="caption" style="min-height:100px">
+                                                <h4>@item.Name</h4>
+                                                @if (@ViewBag.Authors != null)
+                                                {
+                                                    foreach (var tacgia in @ViewBag.Authors)
+                                                    {
+                                                        if (tacgia.ID == item.AuthorID)
+                                                        {
+                                                            <p>Tác giả: @tacgia.Name</p>
+                                                        }
+                                                    }
+                                                }
+                                                            <div class="matrlf-mid">
+                                                                <ul class="rating">
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                <ul class="amount">
+                                                                    @if (@item.Quantity.ToString() != null)
+                                                                    {
+                                                                        var t = item.Quantity.ToString("N0");
+                                                                        <li>Số Lượng: @t</li>
+                                                                    }
+                                                                </ul>
+                                                                <ul class="price-list">
+                                                                    @if (@item.PromotionPrice.ToString() != null || @item.Price.ToString() != null)
+                                                                    {
+                                                                        var t = item.PromotionPrice.ToString("N0");
+                                                                        var t1 = item.Price.ToString("N0");
+                                                                        <li>Giá KM:@t VNĐ</li>
+                                                                        <li>
+                                                                            Giá: @t1 VNĐ
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+
+                                                                <div class="clearfix"> </div>
+                                                            </div>
+                                                <form action="#" method="post">
+                                                    <a href="@Url.Action("ThemGioHang", "GioHang", new { @Masach = item.ID, @strURL = Request.Url.ToString() })" type="button" class="item-add"><p class="number item_price"><i class="btn btn-danger"><i class="fa fa-cart-plus" aria-hidden="true"></i> Thêm Vào Giỏ </i></p></a>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    if (dem % 3 == 0)
+                                    {
+                                        <div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
+                                    }
+
+                                    dem++;
+
+                                }
+                                <div class="clearfix"></div>
+                                <!-- /store products -->
+                                <!-- store bottom filter -->
+                                @*<div class="store-filter clearfix">
+            <ul class="store-pagination">
+                Số Trang
+                <li class="active"><a href="#" class="btn btn-default"> 1 </a>  <a href="#" class="btn btn-default"> 2 </a> <a href="#" class="btn btn-default"> 3 </a> <a href="#" class="btn btn-default"> 4 </a> <a href="#" class="btn btn-default"><i class="fa fa-angle-right"> </i></a></li>
+            </ul>
+        </div>*@
+                                <!-- /store bottom filter -->
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                        @*<div class="store-filter clearfix">
+            Số Trang
+            <ul class="store-pagination">
+                <li class="active"> <a class="btn btn-default"> 1 </a> <a href="#"><a class="btn btn-default"> 2 </a> </a><a href="#"><a class="btn btn-default"> 3 </a> </a><a href="#"> <a class="btn btn-default"> 4 </a></a><a href="#"><i class="fa fa-angle-right"> </i></a></li>
+            </ul>
+        </div>*@
+
+                        <!-- /STORE -->
+
+                    </div>
+                <br />
+                <div class="dlink" style="margin-left: 710px">
+                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+                    <div class="agile-buttons-grids">
+                        @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page }))
+                    </div>
+                </div>
+
+                <!-- /row -->
+                <br /> <br /> <br /> <br />
+                <div class="row">
+                    <div class="col-md-3" style=" visibility: hidden">bbb</div>
+                    <div id="aside" class="col-md-9">
+
+                        <div class="subscribe-main section-w3layouts text-center">
+                            <h4 class="rad-txt">
+                                <span class="abtxt1">Sản Phẩm Mới</span>
+                            </h4>
+                            @foreach (var item in ViewBag.SanPhamMoi)
+                            {
+                                <div class="col-md-4 product-men">
+                                    <div class="product-chr-info chr">
+                                        <div class="thumbnail">
+                                            <a href="@Url.Action("CTSP","SanPham", new { id = item.ID})">
+                                                <img src="@Url.Content("~/Content/HinhAnh/"+item.Image) " alt="" style="width: 100%;height:300px">
+                                            </a>
+                                        </div>
+                                        <div class="caption" style="min-height:100px">
+                                            <h4>@item.Name</h4>
+                                            <p>Tác Giả: @item.Author.Name</p>
+                                            <div class="matrlf-mid">
+                                                <ul class="price-list">
+                                                    @if (@item.PromotionPrice.ToString() != null || @item.Price.ToString() != null)
+                                                    {
+                                                        var t = item.PromotionPrice.ToString("N0");
+                                                        var t1 = item.Price.ToString("N0");
+                                                        <li>Giá KM:@t VNĐ</li>
+                                                        <li>
+                                                            Giá: @t1 VNĐ
+                                                        </li>
+                                                    }
+                                                </ul>
+
+                                                <div class="clearfix"> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <!-- /aside Widget -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- /container -->
+        </div>
+
+    </div>
+</div>
+
+@*<div class="left-ads-display col-md-9">
+        <div class="wrapper_top_shop">
+            <!-- product-sec1 -->
+            <div class="product-sec1">
+                <!-- row1-->
+
+                @foreach (var item in Model.OrderBy(n => n.PromotionPrice))
+                {
+                    <div class="col-md-4 product-men">
+                        <div class="product-chr-info chr">
+                            <div class="thumbnail">
+                                <a href="@Url.Action("CTSP","SanPham", new { id = item.ID})">
+                                    <img src="@Url.Content("~/Content/HinhAnh/"+item.Image) " alt="" style="width: 100%;height:300px">
+                                </a>
+                            </div>
+                            <div class="caption" style="min-height:100px">
+                                <h4>@item.Name</h4>
+                                <p>Tác Giả: @item.Author.Name</p>
+                                <div class="matrlf-mid">
+                                    <ul class="rating">
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="amount">
+                                        <li>Số Lượng: @item.ViewCount</li>
+                                    </ul>
+                                    <ul class="price-list">
+                                        <li>Giá KM:@item.PromotionPrice</li>
+                                        <li>
+                                            Giá: @item.Price
+                                        </li>
+                                    </ul>
+
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <form action="#" method="post">
+                                    <a href="@Url.Action("ThemGioHang","GioHang", new { @Masach = item.ID , @strURL =  Request.Url.ToString() })" type="button" class="item-add"><p class="number item_price"><i class="btn btn-danger"><i class="fa fa-cart-plus" aria-hidden="true"></i> Thêm Vào Giỏ </i></p></a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                <div class="clearfix"></div>
+
+            </div>
+
+             //product-sec1
+            <div class="clearfix"></div>
+        </div>
+    </div>*@

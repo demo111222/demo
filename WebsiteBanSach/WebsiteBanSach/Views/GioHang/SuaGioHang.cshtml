@@ -1,0 +1,77 @@
+﻿@using WebsiteBanSach.Models
+@model ItemGioHang
+@{
+    ViewBag.Title = "SuaGioHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@{
+    List<ItemGioHang> lstGioHang = ViewBag.GioHang as List<ItemGioHang>;
+}
+
+<table class="table">
+    <tr>
+        <td>Mã Sách</td>
+        <td>Tên Sách</td>
+        <td>Bìa Sách</td>
+        <td>Số Lượng</td>
+        <td>Đơn Giá</td>
+        <td>Giá KM</td>
+        <td>Thành Tiền</td>
+    </tr>
+    @foreach (var item in lstGioHang)
+    {
+        if (Model.ID == item.ID)
+        {
+            using (Html.BeginForm("CapNhatGioHang", "GioHang"))
+            {
+    <tr>
+        <td>@item.ID @Html.Hidden("ID", item.ID)</td>
+        <td>@item.Name</td>
+        <td><img src="@Url.Content("~/Content/HinhAnh/" + item.Image)" width="150" height="200" /></td>
+        <td>
+            @Html.TextBox("Count", item.Count, new { @class = "SoLuongThayDoi" })
+            <p id="TB_SoLuongThayDoi"></p>
+        </td>
+        <td>@item.Price.ToString("#,##") đồng</td>
+        <td>@item.PromotionPrice.ToString("#,##") đồng</td>
+        <td>@item.ToTal.ToString("#,##") đồng</td>
+        <td>
+            <input type="submit" value="Cập nhật" id="btnCapNhatGH" />
+            @Html.ActionLink("Xóa", "XoaGioHang", new { @ID = item.ID })
+        </td>
+    </tr>
+        }
+
+    }
+    else
+    {
+    <tr>
+        <td>@item.ID</td>
+        <td>@item.Name</td>
+        <td><img src="@Url.Content("~/Content/HinhAnh/"+item.Image)" width="150" height="200" /></td>
+        <td>@item.Count</td>
+        <td>@item.Price.ToString("#,##") đồng</td>
+        <td>@item.PromotionPrice.ToString("#,##") đồng</td>
+        <td>@item.ToTal.ToString("#,##") đồng</td>
+        <td>
+            @Html.ActionLink("Sửa", "SuaGioHang", new { @ID = item.ID })
+            @Html.ActionLink("Xóa", "XoaGioHang", new { @ID = item.ID })
+        </td>
+    </tr>
+    }
+}
+</table>
+
+@*Kiểm tra số luojng nhập*@
+<script>
+    $("#btnCapNhatGH").click(function () {
+        var Count = $(".SoLuongThayDoi").val();
+        if (isNaN(Count) == true || Count < 0)
+        {
+
+            $("#TB_SoLuongThayDoi").text("Số lượng không hợp lệ!");
+            return false;
+        }
+    });
+</script>
