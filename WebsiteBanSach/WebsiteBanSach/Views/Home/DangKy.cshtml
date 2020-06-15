@@ -29,7 +29,7 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Đăng Ký</h2>
-                    @if (ViewBag.Message != null)
+                    @if (ViewBag.Message != null && @ViewBag.Error==null)
                     {
                         <h3 class="alert alert-success">@ViewBag.Message</h3>
                     }

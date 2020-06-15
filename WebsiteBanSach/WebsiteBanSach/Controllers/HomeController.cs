@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using WebsiteBanSach.Models;
 
 namespace WebsiteBanSach.Controllers
@@ -97,6 +102,133 @@ namespace WebsiteBanSach.Controllers
             return View();
         }
 
+        //tao mat khau random
+        private int RandomNumber(int min, int max) //random số
+        {
+            Random random = new Random();
+            return random.Next(min, max);
+        }
+        /// <summary>
+        /// Tạo ra một chuỗi ngẫu nhiên với độ dài cho trước
+        /// </summary>
+        /// <param name="size">Kích thước của chuỗi </param>
+        /// <param name="lowerCase">Nếu đúng, tạo ra chuỗi chữ thường</param>
+        /// <returns>Random string</returns>
+        private string RandomString(int size, bool lowerCase)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+            if (lowerCase)
+                return builder.ToString().ToLower();
+            return builder.ToString();
+        }
+        public string GetPassword()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(RandomString(4, true));
+            builder.Append(RandomNumber(1000, 9999));
+            builder.Append(RandomString(2, false));
+            builder.Append(RandomString(1, true));
+            return builder.ToString();
+        }
+        //tao mat khau random end
+
+        public ActionResult QuenMatKhau()
+        {
+            return View();
+        }
+
+        [HttpPost,ValidateInput(false)]
+        public ActionResult QuenMatKhau(string email)
+        {
+            try
+            {
+                //kiểm tra Email
+
+                if (email.Length > 250)
+                {
+                    ViewBag.Error = "Email không được dài hơn 250 ký tự";
+                    return View();
+                }
+                if (email == null)
+                {
+                    ViewBag.Error = "Email không được để trống";
+                    return View();
+                }
+                else
+                {
+                    char[] array = email.ToCharArray();
+                    if (email.Contains("@") == false || email.Contains("@.") == true || email.Contains(".@") == true || email.Contains(".com") == false || array[0].ToString() == "@")
+                    {
+                        ViewBag.Error = "Email không đúng định dạng. định dạng đúng vd: minh@gmail.com";
+                        return View();
+                    }
+                }
+                //kiểm tra Email END
+                var userss = db.Users.Single(c => c.Email == email);
+                if(userss!=null)
+                {
+                    var oldpass = userss.Password;
+                    string tentaikhoan = userss.UserName;
+                    if (ModelState.IsValid)
+                    {
+                        string pass = GetPassword();
+                        userss.Password = pass;
+                        if (userss.ModifiedBy != null)
+                        {
+                            userss.ModifiedBy = "Hệ thống";
+                        }
+                        if (userss.ModifiedDate == null || userss.ModifiedDate != null)
+                        {
+                            userss.ModifiedDate = DateTime.Now;
+                        }
+                        UpdateModel(userss);
+                        db.SaveChanges();
+                        if (oldpass != userss.Password)
+                        {
+                            //gửi mail xác nhận đặt hàng
+                            string content = System.IO.File.ReadAllText(Server.MapPath("~/Areas/Admin/Content/template/changepasssuccess.html"));//mail template
+
+                            //thay đổi nội dung mail
+                            content = content.Replace("{{tentaikhoan}}", userss.UserName);
+                            content = content.Replace("{{newpass}}", pass);
+
+                            var mailCustomer = userss.Email.ToString(); //mail của khách
+
+                            new MailHelper().SendMail(mailCustomer, "Mật khẩu được khôi phục thành công", content); // gửi mail cho khách
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "Không có tài khoản với email trên";
+                    return View();
+                }
+                ViewBag.Message = "Đã gửi yêu cầu khôi phục mật khẩu thành công";
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+        }
+
         //[HttpGet]
         //public ActionResult DangKy()
         //{
@@ -121,14 +253,13 @@ namespace WebsiteBanSach.Controllers
         //    return View();
         //}
 
-        public ActionResult About()
+        public ActionResult GioiThieu()
         {
-            ViewBag.Message = "Your application description page.";
-
+            ViewBag.listTheLoai = db.Categories.ToList().OrderBy(c => c.Name);
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult LienHe()
         {
             ViewBag.Message = "Your contact page.";
 
@@ -244,6 +375,15 @@ namespace WebsiteBanSach.Controllers
                     ViewBag.Error = "Email không đúng định dạng. định dạng đúng vd: minh@gmail.com";
                     return View();
                 }
+                var emailList = db.Users.ToList();
+                foreach(var u in emailList)
+                {
+                    if(user.Email==u.Email)
+                    {
+                        ViewBag.Error = "Email đã được dùng hãy chọn email khác";
+                    }
+                }
+                
             }
 
             //Các thông số của Model User được thỏa mãn tiến hành lưu vào csdl
@@ -265,13 +405,18 @@ namespace WebsiteBanSach.Controllers
                     //LUU DUONG DAN CUA FILE
                     var path1 = Path.Combine(Server.MapPath("~/Areas/Admin/Content/build/images/"), filename);
                     var path2 = Path.Combine(Server.MapPath("~/img/"), filename);
-                    if (System.IO.File.Exists(path1) || System.IO.File.Exists(path2))
-                        ViewBag.Thongbao = "Hình ảnh đã tồn tại";
+                    var path3 = Path.Combine(Server.MapPath("~/Content/HinhAnh/"), filename);
+                    if (System.IO.File.Exists(path1) || System.IO.File.Exists(path2) || System.IO.File.Exists(path3))
+                    {
+                        ViewBag.Error = "Hình ảnh đã tồn tại";
+                        return View();
+                    }
                     else
                     {
                         //LUU HINH ANH VAO DUONG DAN
                         fileUpload.SaveAs(path1);
                         fileUpload.SaveAs(path2);
+                        fileUpload.SaveAs(path3);
                     }
                     user.Avatar = filename;
                 }
@@ -337,5 +482,90 @@ namespace WebsiteBanSach.Controllers
         //    return RedirectToAction("Index","Home/");
         //}
         ////Đăng xuất END
+        ///
+
+        public class SitemapNode
+        {
+            public SitemapFrequency? Frequency { get; set; }
+            public DateTime? LastModified { get; set; }
+            public double? Priority { get; set; }
+            public string Url { get; set; }
+        }
+
+        public enum SitemapFrequency
+        {
+            Never,
+            Yearly,
+            Monthly,
+            Weekly,
+            Daily,
+            Hourly,
+            Always
+        }
+        public IReadOnlyCollection<SitemapNode> GetSitemapNodes()
+        {
+            var a = db.Books.ToList();
+            List<SitemapNode> nodes = new List<SitemapNode>();
+            nodes.Add(
+                new SitemapNode()
+                {
+                    Url = Url.Action("Index", "Home", null, Request.Url.Scheme),
+                    Priority = 1
+                });
+            nodes.Add(
+               new SitemapNode()
+               {
+                   Url = Url.Action("GioiThieu", "Home", null, Request.Url.Scheme),
+                   Priority = 0.9
+               });
+            nodes.Add(
+               new SitemapNode()
+               {
+                   Url = Url.Action("LienHe", "Home", null, Request.Url.Scheme),
+                   Priority = 0.9
+               });
+            foreach (var product in a)
+            {
+                nodes.Add(
+                   new SitemapNode()
+                   {
+                       Url = Url.Action("CTSP", "SanPham", new { id = product.ID }, Request.Url.Scheme),
+                       Frequency = SitemapFrequency.Weekly,
+                       Priority = 0.8
+                   });
+            }
+            return nodes;
+        }
+        public string GetSitemapDocument(IEnumerable<SitemapNode> sitemapNodes)
+        {
+            XNamespace xmlns = "http://www.sitemaps.org/schemas/sitemap/0.9";
+            XElement root = new XElement(xmlns + "urlset");
+            foreach (SitemapNode sitemapNode in sitemapNodes)
+            {
+                XElement urlElement = new XElement(
+                xmlns + "url",
+                new XElement(xmlns + "loc", Uri.EscapeUriString(sitemapNode.Url)),
+                sitemapNode.LastModified == null ? null : new XElement(
+                xmlns + "lastmod",
+                sitemapNode.LastModified.Value.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz")),
+                sitemapNode.Frequency == null ? null : new XElement(
+                xmlns + "changefreq",
+                sitemapNode.Frequency.Value.ToString().ToLowerInvariant()),
+                sitemapNode.Priority == null ? null : new XElement(
+                xmlns + "priority",
+                sitemapNode.Priority.Value.ToString("F1", CultureInfo.InvariantCulture)));
+                root.Add(urlElement);
+            }
+            XDocument document = new XDocument(root);
+            return document.ToString();
+        }
+
+        [Route("sitemap.xml")]
+        public ActionResult SitemapXml()
+        {
+            var sitemapNodes = GetSitemapNodes();
+            string xml = GetSitemapDocument(sitemapNodes);
+            return this.Content(xml, "text/xml", Encoding.UTF8);
+        }
     }
 }

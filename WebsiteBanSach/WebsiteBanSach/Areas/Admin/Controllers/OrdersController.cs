@@ -37,6 +37,7 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
             ViewBag.Permission = data.Permissions.Single(n => n.UserGroupID == t1 && n.RoleID == t);
             ViewBag.Detail = data.OrderDetails.Where(c => c.OrderID == id).ToList();
             ViewBag.oder = data.Orders.Single(c => c.ID == id);
+            ViewBag.listuser = data.Users.ToList();
             var o = data.Orders.Single(n => n.ID == id);
             if (o == null)
             {
@@ -83,7 +84,7 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
                 //danh sách các sản phẩm thuoc don hàng trên
                 ViewBag.Detail = data.OrderDetails.Where(c => c.OrderID == id).ToList();
                 // danh sách các quyển sách
-                ViewBag.Book = data.Books.ToList();
+                var listbook = data.Books.ToList();
 
                 o = data.Orders.Single(n => n.ID == id);
                 var deliverstatus = o.DeliveryStatus;
@@ -133,21 +134,23 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
                         {
                             o.ModifiedDate = DateTime.Now;
                         }
-                        //nếu đơn hàng bị hủy thì tự động trả cập nhật số lượng các sản phẩm được mua lại kho
+                        //nếu đơn hàng bị hủy thì tự động trả cập nhật số lượng các sản phẩm được mua lại kho                        
+                        UpdateModel(o);
                         if (o.CheckoutStatus == false)
                         {
-                            foreach (var book in ViewBag.Book)
+                            foreach (var book in listbook)
                             {
                                 foreach (var item in ViewBag.Detail)
                                 {
                                     if (item.BookID == book.ID)
                                     {
-                                        book.Quantity += item.Number;
+                                        var bk = data.Books.Single(c => c.ID == book.ID);
+                                        bk.Quantity += item.Number;
+                                        //UpdateModel(bk);
                                     }
                                 }
                             }
                         }
-                        UpdateModel(o);
                         data.SaveChanges();
 
                         // nếu tình trạng giao hàng được thay đổi

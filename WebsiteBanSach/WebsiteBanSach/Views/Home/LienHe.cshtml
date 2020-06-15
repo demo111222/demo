@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "LienHe";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<!-- breadcrumbs -->
+<div class="crumbs text-center">
+    <div class="container">
+        <div class="row">
+            <ul class="btn-group btn-breadcrumb bc-list">
+                <li class="btn btn1">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </a>
+                </li>
+                <li class="btn btn2">
+                    <a href="@Url.Action("LienHe","Home")">Liên hệ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<br />
+<!--//breadcrumbs ends here-->
+<!-- contact -->
+<div class="section contact" id="contact">
+    <div class="container">
+        <h4 class="rad-txt text-center">
+            <span class="abtxt1">Liên hệ</span>
+            <span class="abtext">chúng tôi</span>
+        </h4>
+        <div class="contact-form">
+            <div class="col-md-7">
+                <!-- contact form grid -->
+                <div class="contact-top1">
+                    <h5>Gửi tin nhắn cho chúng tôi</h5>
+                    <form action="#" class="form_w3layouts" method="post">
+                        <input type="text" placeholder="Tên" required="">
+                        <input type="text" placeholder="Họ và tên đệm" required="">
+
+                        <input class="email" type="email" placeholder="Email người nhận" required="">
+                        <input class="email" type="email" placeholder="Email người gửi" required="">
+                        <textarea placeholder="Để lại lời nhắn tại đây" required=""></textarea>
+                        <input type="submit" value="Gửi tin nhắn">
+                    </form>
+                </div>
+                <!--  //contact form grid ends here -->
+            </div>
+            <!-- contact map grid -->
+            <div class="col-md-5 map contact-right">
+                <div class="contact-top1">
+                    <h5>Bản đồ</h5>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.9503398796587!2d-73.9940307!3d40.719109700000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a27e2f24131%3A0x64ffc98d24069f02!2sCANADA!5e0!3m2!1sen!2sin!4v1441710758555"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+            <!--//contact map grid ends here-->
+            <div class="clearfix"></div>
+        </div>
+        <!-- contact details -->
+        <div class="contact-bottom">
+            <h6>Thông tin liên hệ</h6>
+            <!-- contact details left -->
+            <div class="col-md-6 col-sm-6">
+                <div class="contact-left">
+                    <div class="address">
+                        <h5>Địa chỉ:</h5>
+                        <p>
+                            1185 Điện Biên Phủ
+                            <br> Quận Bình Thạnh, TP.HCM.
+                        </p>
+                    </div>
+                    <div class="address address-mdl">
+                        <h5>Số điện thoại:</h5>
+                        <p>
+                            +09XXXXXXXX
+                        </p>
+                        <p>
+                            +09XXXXXXXX
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- //contact details left -->
+            <!-- contact details right -->
+            <div class="col-md-6 col-sm-6">
+                <div class="contact-right">
+                    <div class="address">
+                        <h5>Email:</h5>
+                        <p>
+                            <a href="#">nva47793@gmai.com</a>
+                        </p>
+                    </div>
+                    @*<div class="footer-social address  address-mdl">
+                        <h5>let's get social</h5>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span class="fa fa-facebook icon_facebook"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="fa fa-twitter icon_twitter"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="fa fa-dribbble icon_dribbble"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="fa fa-google-plus icon_g_plus"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>*@
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- //contact-details right -->
+            <div class="clearfix"></div>
+        </div>
+        <!-- //contact details ends here -->
+    </div>
+</div>
+<!-- //contact -->

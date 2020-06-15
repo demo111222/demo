@@ -324,6 +324,14 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
                         ViewBag.Error = "Email không đúng định dạng. định dạng đúng vd: minh@gmail.com";
                         return View();
                     }
+                    var emailList = data.Users.ToList();
+                    foreach (var ut in emailList)
+                    {
+                        if (u.Email == ut.Email)
+                        {
+                            ViewBag.Error = "Email đã được dùng hãy chọn email khác";
+                        }
+                    }
                 }
                 //kiểm tra Email END
 

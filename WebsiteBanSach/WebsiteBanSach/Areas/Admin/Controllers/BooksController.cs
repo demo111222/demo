@@ -43,7 +43,7 @@ namespace WebsiteBanSach.Areas.Admin.Controllers
             return View(b);
         }
 
-        [ValidateInput(false)]
+        [HttpGet]
         public ActionResult Create()
         {
             try

@@ -17,6 +17,19 @@ namespace WebsiteBanSach.Controllers
         // GET: HoSo
         public ActionResult HoSo(int id)
         {
+            //xác nhận quyền
+            var t = "EDIT_USER_SELF";
+            var t1 = Session["UserGroup"].ToString();
+            ViewBag.Permission = db.Permissions.Single(n => n.UserGroupID == t1 && n.RoleID == t);
+            if(t1!="Member")//không là khách hàng
+            {
+                return RedirectToAction("Index", "Admin/Home");
+            }
+            if (ViewBag.Permission == null)//nếu ko có quyền trên sẽ bị đá ra trang lỗi
+            {
+                return RedirectToAction("Er403", "Admin/loi/");
+            }
+            //xác nhận quyền END
             var hoso = db.Users.Single(c => c.ID == id);
             ViewBag.Order = db.Orders.Where(c => c.UserID == id && c.CheckoutStatus==null).ToList();
             ViewBag.Order_true = db.Orders.Where(c => c.UserID == id && c.CheckoutStatus == true).ToList();
@@ -170,6 +183,14 @@ namespace WebsiteBanSach.Controllers
                     {
                         ViewBag.Error = "Email không đúng định dạng. định dạng đúng vd: minh@gmail.com";
                         return View();
+                    }
+                    var emailList = db.Users.ToList();
+                    foreach (var ut in emailList)
+                    {
+                        if (u.Email == ut.Email)
+                        {
+                            ViewBag.Error = "Email đã được dùng hãy chọn email khác";
+                        }
                     }
                 }
                 //kiểm tra Email END
@@ -395,10 +416,24 @@ namespace WebsiteBanSach.Controllers
         //Chi tiet don hang
         public ActionResult Chitietdonhang(int id)
         {
+            //xác nhận quyền
+            var t = "VIEW_ORDER";
+            var t1 = Session["UserGroup"].ToString();
+            ViewBag.Permission = db.Permissions.Single(n => n.UserGroupID == t1 && n.RoleID == t);
+            if (t1 != "Member")//không là khách hàng
+            {
+                return RedirectToAction("Index", "Admin/Home");
+            }
+            if (ViewBag.Permission == null)//nếu ko có quyền trên sẽ bị đá ra trang lỗi
+            {
+                return RedirectToAction("Er403", "Admin/loi/");
+            }
+            //xác nhận quyền END
             int Manguoidung = int.Parse(Session["ID"].ToString());
             ViewBag.User = db.Users.Single(c => c.ID == Manguoidung);
             ViewBag.Detail = db.OrderDetails.Where(c => c.OrderID == id).ToList();
             ViewBag.oder = db.Orders.Single(c => c.ID == id);
+            ViewBag.listuser = db.Users.ToList();
             var o = db.Orders.Single(n => n.ID == id);
             if (o == null)
             {

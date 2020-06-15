@@ -178,25 +178,49 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904091115402_InitialModel.cs" />
-    <Compile Include="Migrations\201904091115402_InitialModel.Designer.cs">
-      <DependentUpon>201904091115402_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201906140134179_Initial.cs" />
+    <Compile Include="Migrations\201906140134179_Initial.Designer.cs">
+      <DependentUpon>201906140134179_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904171557370_PopulateUserGroupTable.cs" />
-    <Compile Include="Migrations\201904171557370_PopulateUserGroupTable.Designer.cs">
-      <DependentUpon>201904171557370_PopulateUserGroupTable.cs</DependentUpon>
+    <Compile Include="Migrations\201906140151155_PopulateTableData.cs" />
+    <Compile Include="Migrations\201906140151155_PopulateTableData.Designer.cs">
+      <DependentUpon>201906140151155_PopulateTableData.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904180350007_PopulateRoleTable.cs" />
-    <Compile Include="Migrations\201904180350007_PopulateRoleTable.Designer.cs">
-      <DependentUpon>201904180350007_PopulateRoleTable.cs</DependentUpon>
+    <Compile Include="Migrations\201910100902208_Publishers.cs" />
+    <Compile Include="Migrations\201910100902208_Publishers.Designer.cs">
+      <DependentUpon>201910100902208_Publishers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904200445229_PopulatedUserTable.cs" />
-    <Compile Include="Migrations\201904200445229_PopulatedUserTable.Designer.cs">
-      <DependentUpon>201904200445229_PopulatedUserTable.cs</DependentUpon>
+    <Compile Include="Migrations\201910100905588_Authors.cs" />
+    <Compile Include="Migrations\201910100905588_Authors.Designer.cs">
+      <DependentUpon>201910100905588_Authors.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904211127444_PopulateCategoriesTable.cs" />
-    <Compile Include="Migrations\201904211127444_PopulateCategoriesTable.Designer.cs">
-      <DependentUpon>201904211127444_PopulateCategoriesTable.cs</DependentUpon>
+    <Compile Include="Migrations\201910100907467_UserGroups.cs" />
+    <Compile Include="Migrations\201910100907467_UserGroups.Designer.cs">
+      <DependentUpon>201910100907467_UserGroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910100913332_Role.cs" />
+    <Compile Include="Migrations\201910100913332_Role.Designer.cs">
+      <DependentUpon>201910100913332_Role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910100914270_Permissions.cs" />
+    <Compile Include="Migrations\201910100914270_Permissions.Designer.cs">
+      <DependentUpon>201910100914270_Permissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910100916177_Users.cs" />
+    <Compile Include="Migrations\201910100916177_Users.Designer.cs">
+      <DependentUpon>201910100916177_Users.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910100924267_Books.cs" />
+    <Compile Include="Migrations\201910100924267_Books.Designer.cs">
+      <DependentUpon>201910100924267_Books.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910100938545_Orders.cs" />
+    <Compile Include="Migrations\201910100938545_Orders.Designer.cs">
+      <DependentUpon>201910100938545_Orders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910100939440_OrderDetails.cs" />
+    <Compile Include="Migrations\201910100939440_OrderDetails.Designer.cs">
+      <DependentUpon>201910100939440_OrderDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
@@ -260,6 +284,7 @@
     <Content Include="Areas\Admin\Content\template\add_b.html" />
     <Content Include="Areas\Admin\Content\template\add_cate.html" />
     <Content Include="Areas\Admin\Content\template\add_pub.html" />
+    <Content Include="Areas\Admin\Content\template\changepasssuccess.html" />
     <Content Include="Areas\Admin\Content\template\Create_ug.html" />
     <Content Include="Areas\Admin\Content\template\delete_au.html" />
     <Content Include="Areas\Admin\Content\template\delete_b.html" />
@@ -280,6 +305,7 @@
     <Content Include="Areas\Admin\Content\template\newpassword_member.html" />
     <Content Include="Areas\Admin\Content\template\newprofile.html" />
     <Content Include="Areas\Admin\Content\template\delete_od.html" />
+    <Content Include="Areas\Admin\Content\template\ordersuccess.html" />
     <Content Include="Areas\Admin\Content\vendors\animate.css\animate.css" />
     <Content Include="Areas\Admin\Content\vendors\animate.css\animate.min.css" />
     <Content Include="Areas\Admin\Content\vendors\animate.css\gulpfile.js" />
@@ -5512,6 +5538,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="sitemap.xml" />
     <Content Include="tinymce\changelog.txt" />
     <Content Include="tinymce\js\tinymce\jquery.tinymce.min.js" />
     <Content Include="tinymce\js\tinymce\license.txt" />
@@ -5825,6 +5852,9 @@
     <Content Include="Views\HoSo\SuaMatKhau.cshtml" />
     <Content Include="Views\HoSo\Chitietdonhang.cshtml" />
     <Content Include="Views\GioHang\TotalPartial.cshtml" />
+    <Content Include="Views\Home\QuenMatKhau.cshtml" />
+    <Content Include="Views\Home\GioiThieu.cshtml" />
+    <Content Include="Views\Home\LienHe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -5845,23 +5875,6 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904091115402_InitialModel.resx">
-      <DependentUpon>201904091115402_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904171557370_PopulateUserGroupTable.resx">
-      <DependentUpon>201904171557370_PopulateUserGroupTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904180350007_PopulateRoleTable.resx">
-      <DependentUpon>201904180350007_PopulateRoleTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904200445229_PopulatedUserTable.resx">
-      <DependentUpon>201904200445229_PopulatedUserTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904211127444_PopulateCategoriesTable.resx">
-      <DependentUpon>201904211127444_PopulateCategoriesTable.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <TypeScriptCompile Include="Areas\Admin\Content\vendors\devbridge-autocomplete\src\jquery.autocomplete.d.ts" />
     <TypeScriptCompile Include="Areas\Admin\Content\vendors\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -5874,6 +5887,41 @@
       <Project>{b3cfdf5d-02d9-406b-9442-7b8d0ed33a4c}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906140134179_Initial.resx">
+      <DependentUpon>201906140134179_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906140151155_PopulateTableData.resx">
+      <DependentUpon>201906140151155_PopulateTableData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100902208_Publishers.resx">
+      <DependentUpon>201910100902208_Publishers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100905588_Authors.resx">
+      <DependentUpon>201910100905588_Authors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100907467_UserGroups.resx">
+      <DependentUpon>201910100907467_UserGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100913332_Role.resx">
+      <DependentUpon>201910100913332_Role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100914270_Permissions.resx">
+      <DependentUpon>201910100914270_Permissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100916177_Users.resx">
+      <DependentUpon>201910100916177_Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100924267_Books.resx">
+      <DependentUpon>201910100924267_Books.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100938545_Orders.resx">
+      <DependentUpon>201910100938545_Orders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910100939440_OrderDetails.resx">
+      <DependentUpon>201910100939440_OrderDetails.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

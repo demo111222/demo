@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -30,6 +31,7 @@ namespace WebsiteBanSach
             Session["Avatar"] = null;
             Session["Phone"] = null;
             Session["Email"] = null;
+            
         }
     }
 }

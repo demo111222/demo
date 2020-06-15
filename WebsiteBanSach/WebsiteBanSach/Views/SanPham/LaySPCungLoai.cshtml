@@ -40,8 +40,10 @@
             <!-- product -->
             <div class="section singlep_btm">
                 <div class="container">
+                    <br />
                     <h4 class="rad-txt">
-                        <span class="abtxt1">Sản Phẩm Cùng loại</span>
+                        <span class="abtxt1">Sản Phẩm</span>
+                        <span class="abtext">Cùng loại</span>
                     </h4>
                     <div class="new_arrivals">
                         @foreach (var item in Model)
@@ -128,7 +130,7 @@
                 <div class="dlink" style="margin-left: 550px">
                     Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
                     <div class="agile-buttons-grids">
-                        @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page }))
+                        @Html.PagedListPager(Model, page => Url.Action("LaySPCungLoai", new { page = page }))
                     </div>
                 </div>
             </div>

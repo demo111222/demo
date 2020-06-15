@@ -9,8 +9,6 @@
     string email = Session["Email"].ToString();
     string phone = Session["Phone"].ToString();
     string name = Session["Name"].ToString();
-
-
 }
 
 @helper Truncate(string input, int length)
@@ -66,7 +64,16 @@
             <br>
             <b>Ngày cập nhật:</b> @Model.ModifiedDate
             <br>
-            <b>Tên tài khoản mua hàng:</b> @Model.UserID
+            <b>Tên tài khoản mua hàng:</b> 
+            @if (@ViewBag.listuser != null) {
+                foreach(var u in @ViewBag.listuser)
+                {
+                    if(u.ID== Model.UserID)
+                    {
+                        @u.UserName
+                    }
+                }
+            }
         </div>
         <!-- /.col -->
     </div>
@@ -167,6 +174,10 @@
 
                         <tr>
                             <td colspan="4" align="right">Tổng tiền</td>
+                            @if(order>0)
+                            {
+                                order = order / 2;
+                            }
                             <td>@order VNĐ</td>
                         </tr>
                     </tbody>

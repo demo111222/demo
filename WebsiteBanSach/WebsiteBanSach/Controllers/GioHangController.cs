@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PayPal.Api;
+using Common;
 
 namespace WebsiteBanSach.Controllers
 {
@@ -85,6 +86,18 @@ namespace WebsiteBanSach.Controllers
 
         public ActionResult ThanhToan()
         {
+            //xác nhận quyền
+            //var t = "ADD_ORDER";
+            //if (Session["UserGroup"].ToString() != null)
+            //{
+            //    var t1 = Session["UserGroup"].ToString();
+            //    ViewBag.Permission = db.Permissions.Single(n => n.UserGroupID == t1 && n.RoleID == t);
+            //    if (ViewBag.Permission == null)//nếu ko có quyền trên sẽ bị đá ra trang lỗi
+            //    {
+            //        return RedirectToAction("Er403", "Admin/loi/");
+            //    }
+            //}
+            //xác nhận quyền END
             return View();
         }
         public ActionResult GioHangPartial()
@@ -95,8 +108,10 @@ namespace WebsiteBanSach.Controllers
                 ViewBag.TongTien = 0;
                 return PartialView();
             }
-            ViewBag.TongSoLuong = TinhTongSoLuong();
-            ViewBag.TongTien = TinhTongTien();
+            double tsl= TinhTongSoLuong();
+            ViewBag.TongSoLuong = tsl.ToString("N0");
+            decimal tt= TinhTongTien();
+            ViewBag.TongTien = tt.ToString("N0");
             return PartialView();
         }
         public ActionResult TotalPartial()
@@ -107,7 +122,8 @@ namespace WebsiteBanSach.Controllers
                 ViewBag.TongTien = 0;
                 return PartialView();
             }
-            ViewBag.TongSoLuong = TinhTongSoLuong();
+            double sl = TinhTongSoLuong();
+            ViewBag.TongSoLuong = sl.ToString("N0");
             decimal tien = TinhTongTien();
             ViewBag.TongTien = tien.ToString("N0");
 
@@ -174,6 +190,14 @@ namespace WebsiteBanSach.Controllers
         }
         public ActionResult DatHang()
         {
+            //biến phục vụ việc gửi mail
+            int madonhang=0;
+            int soluongsp = 0;
+            decimal tongtiencua1sp = 0;
+            decimal tongtiendonhang = 0;
+            string LinkChiTietDonHang = "http://localhost:53244/HoSo/Chitietdonhang/";
+            //biến phục vụ việc gửi mail end
+
             if (Session["GioHang"] == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -186,7 +210,7 @@ namespace WebsiteBanSach.Controllers
             var order = new WebsiteBanSach.Models.Order();
 
             order.CreatedDate = DateTime.Now;
-            order.DeliveryDate = DateTime.Now;
+            order.DeliveryDate = DateTime.Now.AddDays(7);
             User user = Session["Taikhoan"] as User;
             order.UserID = user.ID;
             order.ModifiedDate = DateTime.Now;
@@ -196,20 +220,46 @@ namespace WebsiteBanSach.Controllers
             db.Orders.Add(order);
             db.SaveChanges();
             List<ItemGioHang> lstGH = LayGioHang();
+            soluongsp = lstGH.Count; //lay so luong sp cua don hang cho viec gui mail
             foreach (var item in lstGH)
             {
                 OrderDetail ord = new OrderDetail();
                 ord.OrderID = order.ID;
+                madonhang = ord.OrderID; // lấy mã đơn hàng để gửi mail
                 ord.BookID = item.ID;
                 ord.Number = item.Number;
                 var bk = db.Books.Single(c => c.ID == ord.BookID);
                 bk.Quantity -= ord.Number;
                 ord.Price = item.Price;
+                tongtiencua1sp = ord.Price * ord.Number; //tinh tổng tiền sản phẩm
+                tongtiendonhang += tongtiencua1sp; //tính tổng đơn hàng
                 db.OrderDetails.Add(ord);
             }
             db.SaveChanges();
             Session["GioHang"] = null;
-            return RedirectToAction("XemGioHang", "GioHang");
+
+            //gửi mail xác nhận đặt hàng
+            string content = System.IO.File.ReadAllText(Server.MapPath("~/Areas/Admin/Content/template/ordersuccess.html"));//mail template
+
+            //thay đổi nội dung mail
+            content = content.Replace("{{MaDonHang}}", madonhang.ToString());
+            content = content.Replace("{{SoLuongSP}}", soluongsp.ToString());
+            content = content.Replace("{{TongTien}}", tongtiendonhang.ToString("N0"));
+            content = content.Replace("{{LinkChiTietDonHang}}", LinkChiTietDonHang+madonhang.ToString());
+
+            var mailCustomer = Session["Email"].ToString(); //mail của khách
+            var toEmail = "nva47793@gmail.com"; //mail của Admin
+
+            new MailHelper().SendMail(mailCustomer, "Đơn hàng đã được đặt thành công", content); // gửi mail cho admin
+            new MailHelper().SendMail(toEmail, "Đơn hàng đã được đặt thành công", content); // gửi mail cho khách hàng
+            //gửi mail xác nhận đặt hàng end
+
+            //return RedirectToAction("XemGioHang", "GioHang");
+
+            //Chuyển về chi tiết đơn hàng vừa tạo của người dùng
+            int nguoidathang = int.Parse(Session["ID"].ToString());
+            var donhangmoinhat = db.Orders.Where(c => c.UserID == nguoidathang).OrderByDescending(c => c.ID).FirstOrDefault();
+            return RedirectToAction("ChiTietDonHang", "HoSo", new { id = donhangmoinhat.ID });
         }
         public decimal ChuyenTienVietSangTienDo(decimal? tien)
         {
@@ -298,6 +348,12 @@ namespace WebsiteBanSach.Controllers
             //on successful payment, show success page to user.
             Session["GioHang"] = null;
             return RedirectToAction("XemGioHang", "GioHang");
+
+            //Chuyển về chi tiết đơn hàng vừa tạo của người dùng
+            //int nguoidathang = int.Parse(Session["ID"].ToString());
+            //var donhangmoinhat = db.Orders.Where(c=>c.UserID==nguoidathang).OrderByDescending(c=>c.ID).FirstOrDefault();            
+            //return RedirectToAction("ChiTietDonHang", "HoSo",new {id= donhangmoinhat.ID });
+
             //return View("SuccessView");
         }
 

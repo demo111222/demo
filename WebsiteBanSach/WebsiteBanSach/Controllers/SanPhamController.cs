@@ -19,7 +19,7 @@ namespace quanlisach.Controllers
         public ActionResult Index(int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 15;
+            int pageSize = 9;
             var lstBook = db.Books.ToList().OrderBy(n => n.ID).ToPagedList(pageNumber, pageSize);
             ViewBag.Authors = db.Authors.ToList();
             ViewBag.Categories = db.Categories.ToList();
@@ -78,7 +78,7 @@ namespace quanlisach.Controllers
         public ActionResult LaySPCungLoai(int maloai, int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 15;
+            int pageSize = 9;
             var lstBook = db.Books.Where(n => n.CategoryID == maloai).ToList().OrderBy(n => n.ID).ToPagedList(pageNumber, pageSize);
             ViewBag.Authors = db.Authors.ToList();
             ViewBag.Categories = db.Categories.ToList();
@@ -91,7 +91,7 @@ namespace quanlisach.Controllers
         public ActionResult BookFromOneCate(int id,int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 15;
+            int pageSize = 9;
             var lstBook = db.Books.Where(a=>a.CategoryID==id).ToList().OrderBy(n => n.ID).ToPagedList(pageNumber, pageSize);
             ViewBag.Authors = db.Authors.ToList();
             ViewBag.Categories = db.Categories.ToList();
@@ -104,7 +104,7 @@ namespace quanlisach.Controllers
         public ActionResult BookFromOneAu(int id, int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 15;
+            int pageSize = 9;
             var lstBook = db.Books.Where(a => a.AuthorID == id).ToList().OrderBy(n => n.ID).ToPagedList(pageNumber, pageSize);
             ViewBag.Authors = db.Authors.ToList();
             ViewBag.Categories = db.Categories.ToList();
@@ -117,7 +117,7 @@ namespace quanlisach.Controllers
         public ActionResult BookFromOnePub(int id, int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 15;
+            int pageSize = 9;
             var lstBook = db.Books.Where(a => a.PublisherID == id).ToList().OrderBy(n => n.ID).ToPagedList(pageNumber, pageSize);
             ViewBag.Authors = db.Authors.ToList();
             ViewBag.Categories = db.Categories.ToList();
